@@ -20,7 +20,7 @@ public interface WithName {
     /**
      * Returns the full name, including the schema or catalog, if applicable. The names are quoted to be
      * safely used in SQL statements, e.g. "catalog", "schema"."my table"
-     * @return
+     * @return full name including schema or catalog
      */
     default String fullQuotedIdentifier() {
         return quotedIdentifier();

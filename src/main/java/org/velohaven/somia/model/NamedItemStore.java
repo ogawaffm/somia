@@ -9,15 +9,14 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * This class is a container for named artefacts.
- * @param <T> The type of the NamedArtefacts
- * @param <E> The type of the named artefacts in the NamedArtefacts
+ * This class is a container for named items.
+ * @param <T> The type of the NamedItemStore
+ * @param <E> The type of the named NamedItems in the NamedItemStore
  */
 @ToString(callSuper = true)
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 @EqualsAndHashCode(callSuper = true)
-public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<E>>
-    extends NamedItemStoreView<T, E> {
+public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<E>> extends NamedItemStoreView<T, E> {
 
     public NamedItemStore() {
         // unbounded
@@ -31,8 +30,8 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     @Override
     void parent(Object parent) {
         super.parent(parent);
-        for (E artefact : items) {
-            artefact.parent(parent);
+        for (E namedItem : items) {
+            namedItem.parent(parent);
         }
     }
 
@@ -55,18 +54,9 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Returns the number of named artefacts in this NamedArtefacts
-     * @return Number of named artefacts in this NamedArtefacts
-     */
-    @Override
-    public int size() {
-        return items.size();
-    }
-
-    /**
-     * Returns the Artefact at the passed index
-     * @param index 0-based index of the Artefact
-     * @return The Artefact at the passed index
+     * Returns the NamedItem at the passed index
+     * @param index 0-based index of the NamedItem
+     * @return The NamedItem at the passed index
      */
     public E getByIndex(int index) {
         checkIndexExists(index);
@@ -82,30 +72,30 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Prepends an Artefact to this Artefacts
-     * @param artefact Artefact to be prepended to this Artefacts
-     * @return This artefacts
+     * Prepends an NamedItem to this NamedItemStore
+     * @param namedItem NamedItem to be prepended to this NamedItemStore
+     * @return This
      */
-    public T prepend(@NonNull E artefact) {
-        return insert(0, artefact);
+    public T prepend(@NonNull E namedItem) {
+        return insert(0, namedItem);
     }
 
     /**
-     * Prepends clones of all artefacts from the passed artefactIterable to this Artefacts
-     * @param artefactIterable Iterable with artefacts to prepend
-     * @return This artefacts
+     * Prepends clones of all NamedItems from the passed namedItemIterable to this NamedItemStore
+     * @param namedItemIterable Iterable with NamedItems to prepend
+     * @return This
      */
-    public T prependAll(@NonNull Iterable<E> artefactIterable) {
-        return insertAll(0, artefactIterable);
+    public T prependAll(@NonNull Iterable<E> namedItemIterable) {
+        return insertAll(0, namedItemIterable);
     }
 
     /**
-     * Replaces a NamedItem in this NamedItemStore with a clone of the passed Artefact. If the Artefact is not
-     * present in this Artefacts it is appended or prepended depending on the appendIfNotExists parameter.
-     * @param item              Artefact to replace in this Artefacts
-     * @param appendIfNotExists True if the Artefact should be appended if it is not present in this Artefacts,
-     *                          False if the Artefact should be prepended if it is not present in this Artefacts
-     * @return This artefacts
+     * Replaces a NamedItem in this NamedItemStore with a clone of the passed NamedItem. If the NamedItem is not
+     * present in this NamedItemStore it is appended or prepended depending on the appendIfNotExists parameter.
+     * @param item              NamedItem to replace in this NamedItemStore
+     * @param appendIfNotExists True if the NamedItem should be appended if it is not present in this NamedItemStore,
+     *                          False if the NamedItem should be prepended if it is not present in this NamedItemStore
+     * @return This
      */
     @SuppressWarnings("unchecked")
     public T replace(@NonNull E item, boolean appendIfNotExists) {
@@ -127,8 +117,8 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Appends (a clone) of the passed Artefact to this Artefacts
-     * @param item Artefact whose clone is added to this Artefacts
+     * Appends (a clone) of the passed NamedItem to this NamedItemStore
+     * @param item NamedItem whose clone is added to this NamedItemStore
      */
     private void appendClone(@NonNull E item) {
         // add a clone with the NamedItemStore's parent as parent
@@ -138,73 +128,72 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Adds (a clone) of the passed Artefact to this Artefacts
-     * @param artefact Artefact whose clone is added to this Artefacts
-     * @return This artefacts
+     * Adds (a clone) of the passed NamedItem to this NamedItemStore
+     * @param namedItem NamedItem whose clone is added to this NamedItemStore
+     * @return This
      */
     @SuppressWarnings("unchecked")
-    public T append(@NonNull E artefact) {
-        appendClone(artefact);
+    public T append(@NonNull E namedItem) {
+        appendClone(namedItem);
         return (T) this;
     }
 
     /**
-     * Appends clones of all artefacts from the passed artefactsIterable to this Artefacts
-     * @param artefactIterable with artefacts to clone and to be appended to this Artefacts
-     * @return This artefacts
+     * Appends clones of all NamedItems from the passed namedItemIterable to this NamedItemStore
+     * @param namedItemIterable with NamedItems to clone and to be appended to this NamedItemStore
+     * @return This
      */
     @SuppressWarnings("unchecked")
-    public T appendAll(@NonNull Iterable<E> artefactIterable) {
-        for (E artefact : artefactIterable) {
-            appendClone(artefact);
+    public T appendAll(@NonNull Iterable<E> namedItemIterable) {
+        for (E namedItem : namedItemIterable) {
+            appendClone(namedItem);
         }
         return (T) this;
     }
 
     /**
-     * Inserts a Artefact to this Artefacts at the passed index position
-     * @param index    0-based index where to insert the artefact
-     * @param artefact Artefact to insert
-     * @return This artefacts
+     * Inserts a NamedItem to this NamedItemStore at the passed index position
+     * @param index    0-based index where to insert the NamedItem
+     * @param namedItem NamedItem to insert
+     * @return This
      */
     @SuppressWarnings("unchecked")
-    public T insert(int index, @NonNull E artefact) {
-        insertAllCloned(index, List.of(artefact));
+    public T insert(int index, @NonNull E namedItem) {
+        insertAllCloned(index, List.of(namedItem));
         return (T) this;
     }
 
     /**
-     * Inserts Clones of all Artefacts from the passed artefactsIterable to this Artefacts
-     * @param startIndex        0-based start position where to insert the artefacts
-     * @param artefactsIterable Iterable with artefacts to insert
+     * Inserts Clones of all NamedItemStore from the passed namedItemIterable to this NamedItemStore
+     * @param startIndex        0-based start position where to insert the NamedItemStores
+     * @param namedItemIterable Iterable with NamedItems to insert
      */
-    @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection"})
-    private void insertAllCloned(int startIndex, @NonNull Iterable<E> artefactsIterable) {
+    private void insertAllCloned(int startIndex, @NonNull Iterable<E> namedItemIterable) {
 
         checkIndexExistsOrIsNext(startIndex);
-        Iterator<E> iterator = artefactsIterable.iterator();
+        Iterator<E> iterator = namedItemIterable.iterator();
 
-        // if the artefactsIterable is not empty
+        // if the namedItemIterable is not empty
         if (iterator.hasNext()) {
 
-            List<E> oldArtefacts = items;
+            List<E> oldNamedItems = items;
 
             items = new ArrayList<>();
 
             /* ***** insert original elements from before the startIndex ***** */
             for (int i = 0; i < startIndex; i++) {
-                items.add(oldArtefacts.get(i));
+                items.add(oldNamedItems.get(i));
             }
 
-            /* ***** insert elements of the artefactsIterable ***** */
+            /* ***** insert elements of the namedItemIterable ***** */
             while (iterator.hasNext()) {
-                E artefact = iterator.next();
-                appendClone(artefact);
+                E namedItem = iterator.next();
+                appendClone(namedItem);
             }
 
             /* ***** insert original elements from after the startIndex ***** */
-            for (int i = startIndex; i < oldArtefacts.size(); i++) {
-                items.add(oldArtefacts.get(i));
+            for (int i = startIndex; i < oldNamedItems.size(); i++) {
+                items.add(oldNamedItems.get(i));
             }
 
         }
@@ -212,21 +201,21 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Inserts all Artefacts from the passed artefactsIterable to this Artefacts
-     * @param startIndex        0-based start position where to insert the artefacts
-     * @param artefactsIterable Iterable with artefacts to insert
-     * @return This artefacts
+     * Inserts all NamedItems from the passed namedItemIterable to this NamedItemStore
+     * @param startIndex        0-based start position where to insert the NamedItemStore
+     * @param namedItemIterable Iterable with NamedItems to insert
+     * @return This
      */
     @SuppressWarnings("unchecked")
-    public T insertAll(int startIndex, @NonNull Iterable<E> artefactsIterable) {
-        insertAllCloned(startIndex, artefactsIterable);
+    public T insertAll(int startIndex, @NonNull Iterable<E> namedItemIterable) {
+        insertAllCloned(startIndex, namedItemIterable);
         return (T) this;
     }
 
     /**
-     * Removes an Artefact with the passed name from this Artefacts regardless if it is present or not.
-     * @param name Name of the Artefact to be removed from this Artefacts
-     * @return The instance of the artefacts.
+     * Removes an NamedItem with the passed name from this NamedItemStore regardless if it is present or not.
+     * @param name Name of the NamedItem to be removed from this NamedItemStore
+     * @return The instance of the NamedItemStore.
      */
     @SuppressWarnings("unchecked")
     public T removeByName(@NonNull String name) {
@@ -239,10 +228,10 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Removes an Artefact from the position of index. If there is no artefact at position index an
+     * Removes an NamedItem from the position of index. If there is no NamedItem at position index an
      * IndexOutOfBoundsException is thrown.
-     * @param index 0-based index of the Artifact to be removed from this Artefacts
-     * @return This artefacts
+     * @param index 0-based index of the NamedItem to be removed from this NamedItemStore
+     * @return This
      */
     @SuppressWarnings("unchecked")
     public T removeByIndex(int index) {
@@ -253,7 +242,7 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Removes all artefacts from this Artefacts
+     * Removes all NamedItems from this NamedItemStore
      */
     public void removeAllByName(Iterator<String> nameIterator) {
         int index;
@@ -268,13 +257,13 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
     }
 
     /**
-     * Removes all artefacts from this Artefacts
-     * @param artefactsToRemove Artefacts with artefacts to be removed from this Artefacts
+     * Removes all NamedItems from this NamedItemStore
+     * @param namedItemsToRemove NamedItemStore with NamedItems to be removed from this NamedItemStore
      */
-    public void removeAll(NamedItemStore<T, E> artefactsToRemove) {
+    public void removeAll(NamedItemStore<T, E> namedItemsToRemove) {
         int index;
-        for (E artefact : artefactsToRemove) {
-            index = indexOf(artefact);
+        for (E namedItem : namedItemsToRemove) {
+            index = indexOf(namedItem);
             // Found?
             if (index != -1) {
                 // remove and set parent to null
@@ -285,16 +274,16 @@ public class NamedItemStore<T extends NamedItemStore<T, E>, E extends NamedItem<
 
 
     /**
-     * Removes all artefacts from this Artefacts
+     * Removes all NamedItems from this NamedItemStore
      */
     public void removeAll() {
         items.clear();
     }
 
     /**
-     * Retains only the artefacts in this Artefacts that are contained in the passed Iterable
-     * @param nameIterable collection containing names to be retained in this artefacts
-     * @return This artefacts
+     * Retains only the NamedItems in this NamedItemStore that are contained in the passed Iterable
+     * @param nameIterable collection containing names to be retained in this NamedItemStore
+     * @return This
      */
     @SuppressWarnings("unchecked")
     public T retainAllByName(@NonNull Iterable<String> nameIterable) {

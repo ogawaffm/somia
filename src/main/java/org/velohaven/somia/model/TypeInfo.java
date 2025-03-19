@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 @ToString(callSuper = true)
 @EqualsAndHashCode()
 @Accessors(fluent = true)

@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+@SuppressWarnings("LombokGetterMayBeUsed")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(fluent = true)
@@ -17,11 +18,12 @@ public abstract class TableLikeObject<T extends TableLikeObject<T>> extends Data
 
     TableLikeObject() {
         super();
-        columns = new Columns<Column>();
+        columns = new Columns<>();
         columns.parent(this);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T columns(@NonNull Columns<Column> columns) {
         this.columns = columns.cloneForParent(this);
         return (T) this;

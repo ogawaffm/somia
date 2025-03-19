@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @Getter
 public abstract class IndexableTableLikeObject<T extends IndexableTableLikeObject<T>>
-    extends TableLikeObject<T> implements WithIndexes {
+    extends TableLikeObject<T> implements WithIndexes<T> {
 
     private Indexes indexes;
 

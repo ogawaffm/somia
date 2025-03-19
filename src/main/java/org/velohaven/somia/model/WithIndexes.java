@@ -2,6 +2,7 @@ package org.velohaven.somia.model;
 
 import lombok.NonNull;
 
+@SuppressWarnings("unused")
 public interface WithIndexes<T> {
 
     Indexes indexes();

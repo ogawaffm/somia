@@ -69,7 +69,7 @@ public class BasicDataTypePropsFactory {
             "", Types.NULL, null,
             0, 0, true, false, 0,
             false, true, false, false, 0,
-            (T) null
+            null
         );
     }
 

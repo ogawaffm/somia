@@ -1,5 +1,7 @@
 package org.velohaven.somia.model;
 
+import lombok.NonNull;
+
 import java.util.Comparator;
 
 public interface DatabaseObjectIdentity extends Comparable<DatabaseObjectIdentity>, WithName {
@@ -17,7 +19,7 @@ public interface DatabaseObjectIdentity extends Comparable<DatabaseObjectIdentit
     }
 
     @Override
-    default int compareTo(DatabaseObjectIdentity otherDatabaseObjectIdentity) {
+    default int compareTo(@NonNull DatabaseObjectIdentity otherDatabaseObjectIdentity) {
         return Comparator.comparing(DatabaseObjectIdentity::catalogName)
             .thenComparing(DatabaseObjectIdentity::schemaName)
             .thenComparing(DatabaseObjectIdentity::name)

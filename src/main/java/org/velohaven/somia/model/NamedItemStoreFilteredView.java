@@ -23,17 +23,18 @@ public class NamedItemStoreFilteredView<T extends NamedItemStoreView<T, E>, E ex
      * The artefacts backed by a LinkedHashMap using the lower-case name as key and which is keeping the
      * insertion order of the artefacts.
      */
-    final private List<E> artefacts;
+    final private List<E> namedItems;
 
     Predicate<E> filterPredicate;
 
+    @SuppressWarnings("rawtypes")
     NamedItemStoreFilteredView(@NonNull NamedItemStore namedItemStore, @NonNull Predicate<E> filterPredicate) {
         super.parent(namedItemStore);
-        this.artefacts = namedItemStore.items;
+        this.namedItems = namedItemStore.items;
         this.filterPredicate = filterPredicate;
     }
 
-    @Override
+    @Override // TODO: check if this is correct
     Object parent() {
         return ((Item) parent()).parent();
     }
@@ -74,7 +75,7 @@ public class NamedItemStoreFilteredView<T extends NamedItemStoreView<T, E>, E ex
 
     @Override
     Stream<E> stream() {
-        return artefacts.stream().filter(filterPredicate);
+        return namedItems.stream().filter(filterPredicate);
     }
 
 

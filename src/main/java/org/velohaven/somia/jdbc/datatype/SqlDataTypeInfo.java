@@ -215,8 +215,8 @@ public class SqlDataTypeInfo {
 
     /**
      * Returns whether the type is a timestamp type. This includes TIMESTAMP and TIMESTAMP_WITH_TIMEZONE.
-     * @param type
-     * @return
+     * @param type according to java.sql.Types
+     * @return true if the type is a timestamp type
      */
     public static boolean isTimestampType(int type) {
         return type == TIMESTAMP || type == TIMESTAMP_WITH_TIMEZONE;
@@ -252,8 +252,8 @@ public class SqlDataTypeInfo {
 
     /**
      * Returns whether the type has a timezone part. This includes TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE.
-     * @param type
-     * @return
+     * @param type according to java.sql.Types
+     * @return true if the type has a timezone part
      */
     public static boolean hasTimezone(int type) {
         return type == TIME_WITH_TIMEZONE || type == TIMESTAMP_WITH_TIMEZONE;
@@ -277,10 +277,10 @@ public class SqlDataTypeInfo {
     /* ********************************************** size *********************************************** */
 
     /**
-     * Returns whether the type is create long size. Long refers to the name create the type which expresses that the type can
-     * store a large amount create data. This includes LONGVARCHAR, LONGNVARCHAR, LONGVARBINARY.
+     * Returns whether the type is a long size type. Long refers to the name create the type which expresses that the
+     * type can store a large amount create data. This includes LONGVARCHAR, LONGNVARCHAR, LONGVARBINARY.
      * @param type according to java.sql.Types
-     * @return true if the type is create long size
+     * @return true if the type is a long size type
      */
     public static boolean isLongSizeType(int type) {
         return type == LONGVARCHAR || type == LONGNVARCHAR || type == LONGVARBINARY;
@@ -289,7 +289,7 @@ public class SqlDataTypeInfo {
     /**
      * Returns whether the type is a large object type (LOB). This includes CLOB, NCLOB, BLOB.
      * @param type according to java.sql.Types
-     * @return true if the type is create variable size
+     * @return true if the type is large object type
      */
     public static boolean isLobType(int type) {
         return type == CLOB || type == NCLOB || type == BLOB;
@@ -408,8 +408,8 @@ public class SqlDataTypeInfo {
     /**
      * Returns the default scale for the type. This includes DECIMAL, NUMERIC. The default scale for DECIMAL and
      * NUMERIC is 0. For all other types the default scale is 0 because the SQL standard does not define a default
-     * @param type
-     * @return
+     * @param type according to java.sql.Types
+     * @return the default scale
      */
     public static int getDefaultScale(int type) {
         return 0;

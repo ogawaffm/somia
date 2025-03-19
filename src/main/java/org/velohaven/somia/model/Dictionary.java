@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+@SuppressWarnings("unused")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(fluent = true)
@@ -16,7 +17,7 @@ public class Dictionary<T extends Dictionary<T>> extends NamedItem<T> implements
     @Getter
     private UserDefinedType udt;
 
-    @Getter
+    @Getter(onMethod_ = {@Override, @NonNull})
     private Tables tables;
 
     Dictionary() {
@@ -26,12 +27,14 @@ public class Dictionary<T extends Dictionary<T>> extends NamedItem<T> implements
     }
 
     @Override
-    public T tables(Tables tables) {
+    @SuppressWarnings("unchecked")
+    public T tables(@NonNull Tables tables) {
         this.tables = tables;
         return (T) this;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     T cloneFieldsFrom(@NonNull T source) {
         super.cloneFieldsFrom(source);
         this.comment = source.comment();
@@ -40,6 +43,7 @@ public class Dictionary<T extends Dictionary<T>> extends NamedItem<T> implements
         return (T) this;
     }
 
+    @SuppressWarnings("unchecked")
     public T comment(String comment) {
         this.comment = comment;
         return (T) this;

@@ -18,14 +18,14 @@ public abstract class RowReader<T> {
         this.strict = strict;
     }
 
-    private SQLException createColAccessException(ColDef colDef, SQLException cause) {
+    private SQLException createColAccessException(ColDef<?> colDef, SQLException cause) {
         return new SQLException(
             "Could not read from column " + colDef.name() + " using (1-based) column index " + colDef.ordinalPosition(),
             cause
         );
     }
 
-    private SQLException createNullViolatedException(ColDef colDef) {
+    private SQLException createNullViolatedException(ColDef<?> colDef) {
         return new SQLException(
             "Read NULL from column "
                 + colDef.name()
@@ -34,7 +34,7 @@ public abstract class RowReader<T> {
         );
     }
 
-    <V> V checkResult(V value, ColDef columnDefinition) throws SQLException {
+    <V> V checkResult(V value, ColDef<?> columnDefinition) throws SQLException {
         if (resultSet.wasNull()) {
             if (strict && !columnDefinition.isNullable()) {
                 throw createNullViolatedException(columnDefinition);
@@ -46,7 +46,7 @@ public abstract class RowReader<T> {
         }
     }
 
-    String readStringByIndex(ColDef columnDefinition) throws SQLException {
+    String readStringByIndex(ColDef<?> columnDefinition) throws SQLException {
         try {
             String value = resultSet.getString(columnDefinition.ordinalPosition());
             return checkResult(value, columnDefinition);
@@ -55,7 +55,7 @@ public abstract class RowReader<T> {
         }
     }
 
-    Short readShortByIndex(ColDef columnDefinition) throws SQLException {
+    Short readShortByIndex(ColDef<?> columnDefinition) throws SQLException {
         try {
             short value = resultSet.getShort(columnDefinition.ordinalPosition());
             return checkResult(value, columnDefinition);
@@ -64,7 +64,7 @@ public abstract class RowReader<T> {
         }
     }
 
-    Integer readIntegerByIndex(ColDef columnDefinition) throws SQLException {
+    Integer readIntegerByIndex(ColDef<?> columnDefinition) throws SQLException {
         try {
             Integer value = resultSet.getInt(columnDefinition.ordinalPosition());
             return checkResult(value, columnDefinition);
@@ -73,7 +73,7 @@ public abstract class RowReader<T> {
         }
     }
 
-    Long readLongByIndex(ColDef columnDefinition) throws SQLException {
+    Long readLongByIndex(ColDef<?> columnDefinition) throws SQLException {
         try {
             Long value = resultSet.getLong(columnDefinition.ordinalPosition());
             return checkResult(value, columnDefinition);
@@ -82,7 +82,7 @@ public abstract class RowReader<T> {
         }
     }
 
-    Boolean readBooleanByIndex(ColDef columnDefinition) throws SQLException {
+    Boolean readBooleanByIndex(ColDef<?> columnDefinition) throws SQLException {
         try {
             Boolean value = resultSet.getBoolean(columnDefinition.ordinalPosition());
             return checkResult(value, columnDefinition);

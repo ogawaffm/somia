@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
  * part of a table. A database object tracks its last change.
  * @param <T>
  */
+@SuppressWarnings("UnusedReturnValue")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(fluent = true)
@@ -53,8 +54,8 @@ public abstract class DatabaseObject<T extends DatabaseObject<T>> extends NamedI
         return (T) this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     T cloneFieldsFrom(@NonNull T source) {
         super.cloneFieldsFrom(source);
         catalogName = source.catalogName();

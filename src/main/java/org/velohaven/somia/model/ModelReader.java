@@ -53,7 +53,7 @@ public class ModelReader {
         return value == null ? defaultValue : value;
     }
 
-    public void addObjectDictionaries(@NonNull final Model model, @NonNull final DatabaseObject databaseObject) {
+    public void addObjectDictionaries(@NonNull final Model model, @SuppressWarnings("rawtypes") @NonNull final DatabaseObject databaseObject) {
 
         Catalog catalog;
         if (!model.catalogs().containsName(databaseObject.catalogName())) {
@@ -102,7 +102,6 @@ public class ModelReader {
         try (ResultSet catalogsResultSet = connection.getMetaData().getCatalogs()) {
 
             Catalog catalog;
-            int catalogCount = 0;
 
             CatalogRowReader catalogRowReader = new CatalogRowReader(catalogsResultSet, true);
 
@@ -159,7 +158,6 @@ public class ModelReader {
      * @param schemaNamePattern pattern to filter the schemas or null for no filtering
      * @param limit             maximum number of schemas to read
      * @return map of catalog names to a map of schema names to schemas sorted by catalog name and schema name
-     * @throws SQLException
      */
     public SortedMap<String, SortedMap<String, Schema>> readSchemas(@NonNull final DatabaseMetaData databaseMetaData,
         final String catalogName,
@@ -243,7 +241,6 @@ public class ModelReader {
      * @param tableNamePattern   Table name pattern to filter the tables or null for no filtering
      * @param limit              Maximum number of tables to read
      * @return Map of full table names to tables sorted by full table name
-     * @throws SQLException
      */
     Map<String, Table> readTablesInfo(@NonNull final Connection connection,
         final String catalogNamePattern, final String schemaNamePattern,
@@ -403,44 +400,6 @@ public class ModelReader {
         return column;
     }
 
-    JdbcDataType oldCreateDataType(@NonNull final ColumnEntity columnEntity) {
-
-        JdbcDataType dataTypeDefaults;
-
-        int typeNumber = ifNull(columnEntity.dataType, NULL);
-        int precision = ifNull(columnEntity.columnSize, 0);
-        int scale = ifNull(columnEntity.decimalDigits, 0);
-
-        if (SqlDataTypeInfo.supportsPrecision(typeNumber) && SqlDataTypeInfo.supportsPrecision(typeNumber)) {
-            dataTypeDefaults = JdbcDataType.of(typeNumber, precision, scale);
-        } else if (SqlDataTypeInfo.supportsPrecision(typeNumber) || SqlDataTypeInfo.supportsSize(typeNumber)) {
-            dataTypeDefaults = JdbcDataType.of(typeNumber, precision);
-        } else if (SqlDataTypeInfo.supportsScale(typeNumber)) {
-            dataTypeDefaults = JdbcDataType.of(typeNumber, scale);
-        } else {
-            dataTypeDefaults = JdbcDataType.of(typeNumber);
-        }
-
-        JdbcDataType dataType = new JdbcDataType(
-            ifNull(columnEntity.typeName, dataTypeDefaults.name()),
-            ifNull(columnEntity.dataType, dataTypeDefaults.typeNumber()),
-            dataTypeDefaults.className(),
-            ifNull(columnEntity.columnSize, 0),
-            ifNull(columnEntity.decimalDigits, 0),
-            "YES".equalsIgnoreCase(ifNull(columnEntity.isNullable, "YES")),
-            "YES".equalsIgnoreCase(ifNull(columnEntity.isAutoIncrement, "NO")),
-            ifNull(columnEntity.numericPrecisionRadix, 0),
-            dataTypeDefaults.isCaseSensitive(),
-            dataTypeDefaults.isSearchable(),
-            dataTypeDefaults.isSigned(),
-            dataTypeDefaults.isCurrency(),
-            dataTypeDefaults.columnDisplaySize(),
-            null
-        );
-
-        return dataType;
-    }
-
     JdbcDataType createDataType(@NonNull final BestRowIdentifierEntity bestRowIdentifier) {
         return createDataType(
             bestRowIdentifier.dataType,
@@ -481,7 +440,7 @@ public class ModelReader {
         int precision = ifNull(columnSize, 0);
         int scale = ifNull(decimalDigits, 0);
 
-        if (SqlDataTypeInfo.supportsPrecision(typeNumber) && SqlDataTypeInfo.supportsPrecision(typeNumber)) {
+        if (SqlDataTypeInfo.supportsPrecision(typeNumber) && SqlDataTypeInfo.supportsSize(typeNumber)) {
             dataTypeDefaults = JdbcDataType.of(typeNumber, precision, scale);
         } else if (SqlDataTypeInfo.supportsPrecision(typeNumber) || SqlDataTypeInfo.supportsSize(typeNumber)) {
             dataTypeDefaults = JdbcDataType.of(typeNumber, precision);
@@ -491,6 +450,8 @@ public class ModelReader {
             dataTypeDefaults = JdbcDataType.of(typeNumber);
         }
 
+
+        @SuppressWarnings("UnnecessaryLocalVariable")
         JdbcDataType jdbcDataType = new JdbcDataType(
             ifNull(typeName, dataTypeDefaults.name()),
             ifNull(dataType, dataTypeDefaults.typeNumber()),
@@ -518,11 +479,6 @@ public class ModelReader {
         SortedMap<Integer, PrimaryKeyColumn> primaryKeyColumns = new TreeMap<>();
 
         PrimaryKey primaryKey = null;
-
-        ResultSet primaryKeyColumnResultSet2 =
-            connection.getMetaData().getPrimaryKeys(table.catalogName(), table.schemaName(), table.name());
-        System.err.println(JsonUtils.serialize(primaryKeyColumnResultSet2));
-        primaryKeyColumnResultSet2.close();
 
         try (
             ResultSet primaryKeyColumnResultSet =
@@ -571,12 +527,6 @@ public class ModelReader {
         Map<String, Index> fullNameToIndex = new HashMap<>();
         Map<String, SortedMap<Integer, IndexColumn>> indexToOrderedIndexColumns = new HashMap<>();
 
-        ResultSet indexesResultSet2 =
-            connection.getMetaData()
-                .getIndexInfo(table.catalogName(), table.schemaName(), table.name(), false, true);
-
-        System.err.println(JsonUtils.serialize(indexesResultSet2));
-        indexesResultSet2.close();
         try (ResultSet indexesResultSet =
             connection.getMetaData()
                 .getIndexInfo(table.catalogName(), table.schemaName(), table.name(), false, true)) {

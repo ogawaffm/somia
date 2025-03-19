@@ -2,17 +2,19 @@ package org.velohaven.somia.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@SuppressWarnings("UnusedReturnValue")
 @ToString(callSuper = true)
 @EqualsAndHashCode()
 @Accessors(fluent = true)
 @Getter
-public class Model implements WithToJson, WithCatalogs {
+public class Model implements WithToJson, WithCatalogs<Model> {
 
     private Catalogs catalogs;
 
@@ -29,7 +31,7 @@ public class Model implements WithToJson, WithCatalogs {
     }
 
     @Override
-    public Model catalogs(Catalogs catalogs) {
+    public Model catalogs(@NonNull Catalogs catalogs) {
         this.catalogs = catalogs.cloneForParent(this);
         return this;
     }

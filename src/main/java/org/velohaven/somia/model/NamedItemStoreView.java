@@ -14,8 +14,8 @@ import java.util.stream.Stream;
  * This class is a container for named items. Items put to this container are cloned before being added.
  * The items are accessible by index or by name. The items are iterable.
  * If the store is cloned, the items are cloned as well.
- * @param <T> The type of the NamedArtefacts
- * @param <E> The type of the named artefacts in the NamedArtefacts
+ * @param <T> The type of the NamedItemStoreView
+ * @param <E> The type of the named NamedItems in the NamedItemStoreView
  */
 
 @SuppressWarnings("unused")
@@ -55,25 +55,25 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
     }
 
     /**
-     * Returns the number of named artefacts in this NamedArtefacts
-     * @return Number of named artefacts in this NamedArtefacts
+     * Returns the number of NamedItems in this NamedItemStoreView
+     * @return Number of NamedItems in this NamedItemStoreView
      */
     public int size() {
         return items.size();
     }
 
     /**
-     * Returns whether this NamedArtefacts contains no named artefacts.
-     * @return True if this NamedArtefacts contains no named artefacts, else false.
+     * Returns whether this NamedItemStoreView contains no NamedItem.
+     * @return True if this NamedItemStoreView contains no NamedItem, else false.
      */
     public boolean isEmpty() {
         return size() == 0;
     }
 
     /**
-     * Returns whether an artefact with the passed index exists
-     * @param index 0-based index of the artefact
-     * @return True if an artefact with the passed index exists, else false
+     * Returns whether a NamedItem with the passed index exists
+     * @param index 0-based index of the NamedItem
+     * @return True if a NamedItem with the passed index exists, else false
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean indexExists(int index) {
@@ -81,16 +81,16 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
     }
 
     /**
-     * Returns the index of the Artefact with the passed name
-     * @param name Name of the Artefact
-     * @return 0-based index of the Artefact with the passed name
+     * Returns the index of the NamedItem with the passed name
+     * @param name Name of the NamedItem
+     * @return 0-based index of the NamedItem with the passed name
      */
     public int indexOf(@NonNull String name) {
-        return indexOf(artefact -> artefact.name().equals(name));
+        return indexOf(namedItem -> namedItem.name().equals(name));
     }
 
-    public int indexOf(@NonNull E artefact) {
-        return indexOf(artefact::equals);
+    public int indexOf(@NonNull E namedItem) {
+        return indexOf(namedItem::equals);
     }
 
     int indexOf(@NonNull Predicate<NamedItem<?>> elementPredicate) {
@@ -98,9 +98,9 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
         Iterator<E> iterator = this.stream().iterator();
 
         while (iterator.hasNext()) {
-            E artefact = iterator.next();
+            E namedItem = iterator.next();
             matchIndex++;
-            if (elementPredicate.test(artefact)) {
+            if (elementPredicate.test(namedItem)) {
                 return matchIndex;
             }
         }
@@ -108,7 +108,7 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
     }
 
     /**
-     * Returns a List of the names in original case of the artefacts in this Artefacts
+     * Returns a List of the names in original case of the NamedItem in this NamedItemStoreView
      * @return List of the names
      */
     public List<String> allNames() {
@@ -124,9 +124,9 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
     }
 
     /**
-     * Returns the Artefact at the passed index
-     * @param index 0-based index of the Artefact
-     * @return The Artefact at the passed index
+     * Returns the NamedItem at the passed index
+     * @param index 0-based index of the NamedItem
+     * @return The NamedItem at the passed index
      */
     public E getByIndex(int index) {
         if (!indexExists(index)) {
@@ -136,40 +136,42 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
     }
 
     /**
-     * Returns the Artefact with the passed name or null if no such Artefact exists
-     * @param name Name of the Artefact to return
-     * @return The Artefact with the passed name or null if no such Artefact exists
+     * Returns the NamedItem with the passed name or null if no such NamedItem exists
+     * @param name Name of the NamedItem to return
+     * @return The NamedItem with the passed name or null if no such NamedItem exists
      */
     public E getByName(@NonNull String name) {
-        return stream().filter(artefact -> artefact.name().equals(name)).findFirst()
+        return stream().filter(namedItem -> namedItem.name().equals(name)).findFirst()
             .orElseThrow(() -> newNoSuchElement(name));
     }
 
     /**
-     * Returns whether this Artefacts contains the passed Artefact. The comparison is done by the equals method.
-     * @param artefact Artefact to be checked for containment in this Artefacts
-     * @return True if this Artefacts contains the passed Artefact, else false.
+     * Returns whether this NamedItemStoreView contains the passed NamedItem. The comparison is done by the equals
+     * method.
+     * @param namedItem NamedItem to be checked for containment in this NamedItemStoreView
+     * @return True if this NamedItemStoreView contains the passed NamedItem, else false.
      */
-    public boolean contains(@NonNull E artefact) {
-        return indexOf(artefact) != -1;
+    public boolean contains(@NonNull E namedItem) {
+        return indexOf(namedItem) != -1;
     }
 
     /**
-     * Returns whether this Artefacts containsName an Artefact with the passed name
-     * @param name Name of the Artefact to be checked for containment in this Artefacts
-     * @return True if this Artefacts containsName an Artefact with the passed name, else false.
+     * Returns whether this NamedItemStoreView contains a NamedItem with the passed name
+     * @param name Name of the NamedItem to be checked for containment in this NamedItemStoreView
+     * @return True if this NamedItemStoreView contains a NamedItem with the passed name, else false.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean containsName(@NonNull String name) {
         return indexOf(name) != -1;
     }
 
     /**
-     * Returns whether this Artefacts contains all artefacts with the names of the passed Iterable
-     * @param nameIterable Iterable with names to be checked for containment in this Artefacts
-     * @return True if all elements of nameIterable are contained, else false
+     * Returns whether this NamedItemStoreView contains all NamedItems with the names of the passed Iterable
+     * @param namedItemIterable Iterable with names to be checked for containment in this NamedItemStoreView
+     * @return True if all elements of namedItemIterable are contained, else false
      */
-    public boolean containsAllNames(@NonNull Iterable<String> nameIterable) {
-        for (String name : nameIterable) {
+    public boolean containsAllNames(@NonNull Iterable<String> namedItemIterable) {
+        for (String name : namedItemIterable) {
             if (!containsName(name)) {
                 return false;
             }
@@ -178,8 +180,8 @@ public abstract class NamedItemStoreView<T extends NamedItemStoreView<T, E>, E e
     }
 
     /**
-     * Returns an iterator over the artefacts in this Artefacts
-     * @return Iterator over the artefacts
+     * Returns an iterator over the NamedItems in this NamedItemStoreView
+     * @return Iterator over the NamedItems
      */
     @SuppressWarnings("NullableProblems")
     @Override

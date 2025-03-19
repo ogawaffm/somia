@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import static java.sql.Types.NULL;
 
+@SuppressWarnings("UnusedReturnValue")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(fluent = true)

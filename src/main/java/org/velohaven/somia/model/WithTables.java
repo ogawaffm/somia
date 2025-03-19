@@ -1,12 +1,14 @@
 package org.velohaven.somia.model;
 
+import lombok.NonNull;
+
 public interface WithTables<T> {
 
-    Tables tables();
+    @NonNull Tables tables();
 
-    T tables(Tables tables);
+    T tables(@NonNull Tables tables);
 
-    default Table tables(String tableName) {
+    default Table tables(@NonNull String tableName) {
         return tables().getByName(tableName);
     }
 

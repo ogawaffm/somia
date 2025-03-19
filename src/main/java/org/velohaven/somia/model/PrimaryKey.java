@@ -11,10 +11,8 @@ public class PrimaryKey extends Key<PrimaryKey, PrimaryKeyColumn> {
     public PrimaryKey isUnique(boolean isUnique) {
         if (!isUnique) {
             throw new IllegalArgumentException("Primary key must be unique");
-        } else {
-            super.isUnique(isUnique);
         }
-
+        super.isUnique(true);
         return this;
     }
 
