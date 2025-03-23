@@ -10,6 +10,8 @@ import java.sql.SQLException;
 
 public abstract class H2JsonBasedTest extends H2TextBasedTest implements JsonCompare {
 
+    private String actualResult = null;
+
     @Override
     @Test
     public void compare() {
@@ -17,17 +19,25 @@ public abstract class H2JsonBasedTest extends H2TextBasedTest implements JsonCom
     }
 
     public String getActualResult() {
-        Table table = null;
-        try {
-            table = new ModelReader().readTable(getConnection(), "TEST", null, getBaseName());
-        } catch (SQLException e) {
-            Assertions.fail(e);
+        if (actualResult == null) {
+            Table table = null;
+            try {
+                table = new ModelReader().readTable(getConnection(), null, "TEST", getBaseName());
+                if (table == null) {
+                    Assertions.fail("Table TEST." + getBaseName() + " not found");
+                }
+            } catch (SQLException e) {
+                Assertions.fail(e);
+            }
+            actualResult = table.toJson();
+            // save for traceability
+            saveResult(getActualResult(), actualResult);
         }
-        return table.toJson();
+        return actualResult;
     }
 
     @Override
-    public String getExpectedResultFilenameExtension() {
+    public String getResultFilenameExtension() {
         return "json";
     }
 

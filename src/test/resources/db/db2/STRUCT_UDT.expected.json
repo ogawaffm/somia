@@ -1,0 +1,93 @@
+{
+  "name": "STRUCT_UDT",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "INTEGER_COL",
+      "type": {
+        "name": "INTEGER",
+        "typeNumber": 4,
+        "className": "java.lang.Integer",
+        "precision": 10,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": true,
+        "isCurrency": false,
+        "columnDisplaySize": 11,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "STRUCT_TYPE_COL",
+      "type": {
+        "name": "\"TEST\".\"STRUCT_TYPE\"",
+        "typeNumber": 2002,
+        "className": "java.sql.Struct",
+        "precision": 16,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "CHAR_10_TYPE_COL",
+      "type": {
+        "name": "\"TEST\".\"CHAR_10_TYPE\"",
+        "typeNumber": 2001,
+        "className": "java.lang.Object",
+        "precision": 10,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": false,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}

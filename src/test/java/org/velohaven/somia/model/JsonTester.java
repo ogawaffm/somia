@@ -43,7 +43,7 @@ public class JsonTester {
         compareJsonNodes(expectedJson, actualJson, "");
     }
 
-    private void compareJsonNodes(JsonNode expected, JsonNode actual, String path) {
+    private void oldCompareJsonNodes(JsonNode expected, JsonNode actual, String path) {
         if (!expected.equals(actual)) {
             if (expected.isObject() && actual.isObject()) {
                 Iterator<Map.Entry<String, JsonNode>> fields = expected.fields();
@@ -62,4 +62,29 @@ public class JsonTester {
         }
     }
 
+    private void compareJsonNodes(JsonNode expected, JsonNode actual, String path) {
+        if (actual == null) {
+            Assertions.fail("Actual JSON node is null at path: " + path);
+        }
+        if (!expected.equals(actual)) {
+            if (expected.isObject() && actual.isObject()) {
+                Iterator<Map.Entry<String, JsonNode>> fields = expected.fields();
+                while (fields.hasNext()) {
+                    Map.Entry<String, JsonNode> field = fields.next();
+                    String fieldPath = path.isEmpty() ? field.getKey() : path + "." + field.getKey();
+                    if (actual.has(field.getKey())) {
+                        compareJsonNodes(field.getValue(), actual.get(field.getKey()), fieldPath);
+                    } else {
+                        Assertions.fail("Missing field at path: " + fieldPath);
+                    }
+                }
+            } else if (expected.isArray() && actual.isArray()) {
+                for (int i = 0; i < expected.size(); i++) {
+                    compareJsonNodes(expected.get(i), actual.get(i), path + "[" + i + "]");
+                }
+            } else {
+                Assertions.assertEquals(expected, actual, "Mismatch at path: " + path);
+            }
+        }
+    }
 }

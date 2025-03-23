@@ -1,0 +1,30 @@
+DROP TABLE IF EXISTS TEST.NCLOB_DATA_TYPES;
+CREATE TABLE TEST.NCLOB_DATA_TYPES
+(
+
+    -- with default size
+    DBCLOB_COL                                    DBCLOB,
+
+    NCLOB_COL                                     NCLOB,
+    NCHAR_LARGE_OBJECT_COL                        NCHAR LARGE OBJECT,
+    NATIONAL_CHARACTER_LARGE_OBJECT_COL           NATIONAL CHARACTER LARGE OBJECT,
+
+    -- with minimum size of 1 character
+    DBCLOB_1_COL                                  DBCLOB(1),
+    DBCLOB_1_CODEUNITS16_COL                      DBCLOB(1 CODEUNITS16),
+    DBCLOB_1_CODEUNITS32_COL                      DBCLOB(1 CODEUNITS32),
+
+    NCLOB_1_COL                                   NCLOB(1),
+    NCHAR_LARGE_OBJECT_1_COL                      NCHAR LARGE OBJECT(1),
+    NATIONAL_CHARACTER_LARGE_OBJECT_1_COL         NATIONAL CHARACTER LARGE OBJECT(1),
+
+    -- with maximum size
+    DBCLOB_1073741823_COL                         DBCLOB(1073741823),
+    DBCLOB_1073741823_CODEUNITS16_COL             DBCLOB(1073741823 CODEUNITS16),
+    DBCLOB_536870911_CODEUNITS32_COL              DBCLOB(536870911 CODEUNITS32),
+
+    NCLOB_536870911_COL                           NCLOB(536870911),
+    NCHAR_LARGE_OBJECT_536870911_COL              NCHAR LARGE OBJECT(536870911),
+    NATIONAL_CHARACTER_LARGE_OBJECT_536870911_COL NCLOB(536870911)
+
+)

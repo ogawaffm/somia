@@ -2,9 +2,11 @@ package org.velohaven.somia.db;
 
 import org.junit.jupiter.api.Assertions;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public abstract class TextBasedTest implements TestCompare<String> {
     }
 
     private void setUp() {
+        String s = getSetUpResourcePath();
         // Are there any setup scripts to execute?
         if (Files.exists(Path.of(getSetUpResourcePath()))) {
             // Yes, there are
@@ -38,7 +41,20 @@ public abstract class TextBasedTest implements TestCompare<String> {
 
     abstract public Connection getConnection();
 
-    abstract public String getResourceFolder();
+    private String getAbsoluteResourceFolder() {
+        try {
+            Path resourcePath = Paths.get(
+                    Objects.requireNonNull(
+                            TextBasedTest.class.getClassLoader().getResource(getRelativeResourceFolder())
+                    ).toURI()
+            );
+            return resourcePath.toAbsolutePath().toString();
+        } catch (Exception exception) {
+            throw new RuntimeException("Failed to get resource folder", exception);
+        }
+    }
+
+    abstract public String getRelativeResourceFolder();
 
     public String getBaseName() {
         String className = this.getClass().getSimpleName();
@@ -46,32 +62,52 @@ public abstract class TextBasedTest implements TestCompare<String> {
     }
 
     public String getSetUpResourcePath() {
-        return getResourceFolder() + "/" + getBaseName() + ".sql";
+        return getAbsoluteResourceFolder() + "/" + getBaseName() + ".sql";
     }
 
-    abstract public String getExpectedResultFilenameExtension();
+    abstract public String getResultFilenameExtension();
 
-    public String getExpectedResultFilename() {
-        String filename = getResourceFolder() + "/" + getBaseName() + ".expected";
-        if (!getExpectedResultFilenameExtension().isEmpty()) {
-            filename += "." + getExpectedResultFilenameExtension();
+    private String getResultFilename(String type) {
+        String filename = getAbsoluteResourceFolder() + "/" + getBaseName() + "." + type;
+        if (!getResultFilenameExtension().isEmpty()) {
+            filename += "." + getResultFilenameExtension();
         }
         return filename;
     }
 
+    public String getExpectedResultFilename() {
+        return getResultFilename("expected");
+    }
+
+    public String getActualResultFilename() {
+        return getResultFilename("actual");
+    }
+
+    public String getActualResult() {
+        return readResult(getActualResultFilename());
+    }
+
     public String getExpectedResult() {
-        Path expectedResultPath = null;
+        return readResult(getExpectedResultFilename());
+    }
+
+
+    public String readResult(String filename) {
         try {
-            expectedResultPath = Path.of(
-                    Objects.requireNonNull(
-                            getClass().getClassLoader().getResource(getExpectedResultFilename())
-                    ).toURI()
-            );
-            return Files.readString(expectedResultPath, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            Assertions.fail("Failed to read expected result file " + expectedResultPath, e);
+            return Files.readString(Path.of(filename), StandardCharsets.UTF_8);
+        } catch (IOException ioException) {
+            Assertions.fail(ioException);
         }
         // unreachable
         return null;
     }
+
+    public void saveResult(String filename, String result) {
+        try {
+            Files.writeString(Path.of(filename), result, StandardCharsets.UTF_8);
+        } catch (IOException ioException) {
+            Assertions.fail(ioException);
+        }
+    }
+
 }

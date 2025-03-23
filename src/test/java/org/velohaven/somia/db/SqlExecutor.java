@@ -1,5 +1,7 @@
 package org.velohaven.somia.db;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +17,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class SqlExecutor {
 
     /**
@@ -49,20 +52,20 @@ public class SqlExecutor {
 
     static public void executeSql(Connection connection, String sql) {
         try (Statement stmt = connection.createStatement()) {
-            System.out.println("Executing:\n" + sql);
             stmt.execute(sql);
         } catch (SQLException e) {
+            log.error("Error executing:\n" + sql + "\n" + e);
             throw new RuntimeException(e);
         }
     }
 
     static public void executeSqlScript(Connection connection, String scriptFilename) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                SqlExecutor.class.getClassLoader().getResourceAsStream(scriptFilename), StandardCharsets.UTF_8))) {
+                Files.newInputStream(Path.of(scriptFilename)), StandardCharsets.UTF_8))) {
             String sql = reader.lines().collect(Collectors.joining("\n"));
             executeSql(connection, sql);
         } catch (Exception e) {
-            throw new RuntimeException("Error executing script: " + scriptFilename, e);
+            throw new RuntimeException("Error executing script: " + scriptFilename + "\n" + e, e);
         }
     }
 }
