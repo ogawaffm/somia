@@ -31,7 +31,7 @@ public abstract class H2JsonBasedTest extends H2TextBasedTest implements JsonCom
             }
             actualResult = table.toJson();
             // save for traceability
-            saveResult(getActualResult(), actualResult);
+            saveResult(getActualResultFilename(), actualResult);
         }
         return actualResult;
     }
