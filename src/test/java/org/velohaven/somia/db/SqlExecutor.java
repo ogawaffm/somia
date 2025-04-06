@@ -51,7 +51,7 @@ public class SqlExecutor {
     }
 
     static public String[] getSqlStatements(String sqlBatch) {
-        return sqlBatch.split(";");
+        return sqlBatch.split("(?m)^/\\s*$");
     }
 
     @SuppressWarnings("SqlSourceToSinkFlow")
@@ -73,7 +73,7 @@ public class SqlExecutor {
                     continue;
                 }
                 if (statements.length > 1) {
-                    log.debug("Executing {}/{}:\n{}\n", statementIndex, statements.length, statement);
+                    log.debug("Executing {}/{}:\n{}\n", statementIndex + 1, statements.length, statement);
                 } else {
                     log.debug("Executing:\n{}\n", statement);
                 }
