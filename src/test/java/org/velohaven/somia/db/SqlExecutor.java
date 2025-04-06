@@ -24,9 +24,9 @@ public class SqlExecutor {
      * Builds a list of script file names in the given directory, ordered by their natural order.
      * The ordering is important to ensure that the scripts are executed in the correct order, which can be achieved by
      * naming the scripts in a way that the natural order is the correct order (e.g. prefixed by "001_...", "002_...").
-     * The directory is expected to be in the resources folder.
+     * The directory is expected to be in the resources' folder.
      *
-     * @param scriptDirectoryName The directory name in the resources folder.
+     * @param scriptDirectoryName The directory name in the resources' folder.
      * @return A list of script file names.
      */
     private static List<String> getOrderedScriptFileNames(String scriptDirectoryName) {
@@ -50,11 +50,37 @@ public class SqlExecutor {
         }
     }
 
-    static public void executeSql(Connection connection, String sql) {
+    static public String[] getSqlStatements(String sqlBatch) {
+        return sqlBatch.split(";");
+    }
+
+    @SuppressWarnings("SqlSourceToSinkFlow")
+    static public void executeSql(Connection connection, String singleStatement) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(singleStatement);
+        }
+    }
+
+    static public void executeSqlBatch(Connection connection, String batch) {
+        String[] statements = getSqlStatements(batch);
+        String statement = "";
+        try {
+            for (int statementIndex = 0; statementIndex < statements.length; statementIndex++) {
+
+                statement = statements[statementIndex];
+                if (statement.isEmpty()) {
+                    log.debug("Skipping execution of empty statement");
+                    continue;
+                }
+                if (statements.length > 1) {
+                    log.debug("Executing {}/{}:\n{}\n", statementIndex, statements.length, statement);
+                } else {
+                    log.debug("Executing:\n{}\n", statement);
+                }
+                executeSql(connection, statement);
+            }
         } catch (SQLException e) {
-            log.error("Error executing:\n" + sql + "\n" + e);
+            log.error("Error executing:\n{}\n{}", statement, e);
             throw new RuntimeException(e);
         }
     }
@@ -63,7 +89,7 @@ public class SqlExecutor {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 Files.newInputStream(Path.of(scriptFilename)), StandardCharsets.UTF_8))) {
             String sql = reader.lines().collect(Collectors.joining("\n"));
-            executeSql(connection, sql);
+            executeSqlBatch(connection, sql);
         } catch (Exception e) {
             throw new RuntimeException("Error executing script: " + scriptFilename + "\n" + e, e);
         }
