@@ -1,23 +1,24 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.AttributeEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.AttributeEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetAttributesColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetAttributesColDef.*;
 
 /**
- * A {@link RowReader} for reading {@link AttributeEntity}s from a ResultSet with the structure
+ * A {@link KnownMetaDataReader} for reading {@link AttributeEntity}s from a ResultSet with the structure
  * returned by {@link java.sql.DatabaseMetaData#getAttributes}.
  */
-public class AttributeRowReader extends RowReader<AttributeEntity> {
+public class AttributeReader extends KnownMetaDataReader<AttributeEntity> {
 
-    public AttributeRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected AttributeReader(final ResultSet resultSet, final boolean strict) {
+        super(resultSet, AttributeEntity::new, strict);
     }
 
-    void read(AttributeEntity row) throws SQLException {
+    @Override
+    protected void transfer(AttributeEntity row) throws SQLException {
         row.tableCatalog = readStringByIndex(TABLE_CAT);
         row.tableSchema = readStringByIndex(TABLE_SCHEM);
         row.tableName = readStringByIndex(TABLE_NAME);

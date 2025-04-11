@@ -1,23 +1,24 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.TypeInfoEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.TypeInfoEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetTypeInfoColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetTypeInfoColDef.*;
 
 /**
- * A {@link RowReader} for reading {@link TypeInfoEntity}s from a ResultSet with the structure
+ * A {@link KnownMetaDataReader} for reading {@link TypeInfoEntity}s from a ResultSet with the structure
  * returned by {@link java.sql.DatabaseMetaData#getTypeInfo}.
  */
-public class TypeInfoRowReader extends RowReader<TypeInfoEntity> {
+public class TypeInfoReader extends KnownMetaDataReader<TypeInfoEntity> {
 
-    public TypeInfoRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected TypeInfoReader(final ResultSet resultSet, final boolean strict) {
+        super(resultSet, TypeInfoEntity::new, strict);
     }
 
-    public void read(TypeInfoEntity row) throws SQLException {
+    @Override
+    protected void transfer(TypeInfoEntity row) throws SQLException {
         row.typeName = readStringByIndex(TYPE_NAME);
         row.dataType = readIntegerByIndex(DATA_TYPE);
         row.precision = readIntegerByIndex(PRECISION);

@@ -1,23 +1,24 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.PseudoColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.PseudoColumnEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetPseudoColumnsColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetPseudoColumnsColDef.*;
 
 /**
- * A {@link RowReader} for reading {@link PseudoColumnEntity}s from a ResultSet with the structure
+ * A {@link KnownMetaDataReader} for reading {@link PseudoColumnEntity}s from a ResultSet with the structure
  * returned by {@link java.sql.DatabaseMetaData#getPseudoColumns}.
  */
-public class PseudoColumnRowReader extends RowReader<PseudoColumnEntity> {
+public class PseudoColumnReader extends KnownMetaDataReader<PseudoColumnEntity> {
 
-    public PseudoColumnRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected PseudoColumnReader(final ResultSet resultSet, final boolean strict) {
+        super(resultSet, PseudoColumnEntity::new, strict);
     }
 
-    void read(PseudoColumnEntity row) throws SQLException {
+    @Override
+    protected void transfer(PseudoColumnEntity row) throws SQLException {
         row.tableCatalog = readStringByIndex(TABLE_CAT);
         row.tableSchema = readStringByIndex(TABLE_SCHEM);
         row.tableName = readStringByIndex(TABLE_NAME);

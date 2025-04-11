@@ -1,23 +1,24 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.FunctionColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.FunctionColumnEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetFunctionColumnsColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetFunctionColumnsColDef.*;
 
 /**
- * A {@link RowReader} for reading {@link FunctionColumnEntity}s from a ResultSet with the structure
+ * A {@link KnownMetaDataReader} for reading {@link FunctionColumnEntity}s from a ResultSet with the structure
  * returned by {@link java.sql.DatabaseMetaData#getFunctionColumns}.
  */
-public class FunctionColumnRowReader extends RowReader<FunctionColumnEntity> {
+public class FunctionColumnReader extends KnownMetaDataReader<FunctionColumnEntity> {
 
-    public FunctionColumnRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected FunctionColumnReader(final ResultSet resultSet, final boolean strict) {
+        super(resultSet, FunctionColumnEntity::new, strict);
     }
 
-    void read(FunctionColumnEntity row) throws SQLException {
+    @Override
+    protected void transfer(FunctionColumnEntity row) throws SQLException {
         row.functionCatalog = readStringByIndex(FUNCTION_CAT);
         row.functionSchema = readStringByIndex(FUNCTION_SCHEM);
         row.functionName = readStringByIndex(FUNCTION_NAME);

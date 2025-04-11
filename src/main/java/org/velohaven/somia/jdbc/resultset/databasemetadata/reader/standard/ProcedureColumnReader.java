@@ -1,23 +1,24 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.ProcedureColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.ProcedureColumnEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetProcedureColumnsColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetProcedureColumnsColDef.*;
 
 /**
- * A {@link RowReader} for reading {@link ProcedureColumnEntity}s from a ResultSet with the structure
+ * A {@link KnownMetaDataReader} for reading {@link ProcedureColumnEntity}s from a ResultSet with the structure
  * returned by {@link java.sql.DatabaseMetaData#getProcedureColumns}.
  */
-public class ProcedureColumnRowReader extends RowReader<ProcedureColumnEntity> {
+public class ProcedureColumnReader extends KnownMetaDataReader<ProcedureColumnEntity> {
 
-    public ProcedureColumnRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected ProcedureColumnReader(final ResultSet resultSet, final boolean strict) {
+        super(resultSet, ProcedureColumnEntity::new, strict);
     }
 
-    void read(ProcedureColumnEntity row) throws SQLException {
+    @Override
+    protected void transfer(ProcedureColumnEntity row) throws SQLException {
         row.procedureCatalog = readStringByIndex(PROCEDURE_CAT);
         row.procedureSchema = readStringByIndex(PROCEDURE_SCHEM);
         row.procedureName = readStringByIndex(PROCEDURE_NAME);

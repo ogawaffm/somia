@@ -1,25 +1,27 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.function.Supplier;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.KeyReferenceColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.KeyReferenceColumnEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetKeyReferenceColumnsColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetKeyReferenceColumnsColDef.*;
 
 /**
- * A {@link RowReader} for reading {@link KeyReferenceColumnEntity}s from a ResultSet with the structure
+ * A {@link KnownMetaDataReader} for reading {@link KeyReferenceColumnEntity}s from a ResultSet with the structure
  * returned by {@link java.sql.DatabaseMetaData#getImportedKeys},
  * {@link java.sql.DatabaseMetaData#getExportedKeys} and
  * {@link java.sql.DatabaseMetaData#getCrossReference}.
  */
-public abstract class KeyReferenceColumnRowReader<T extends KeyReferenceColumnEntity> extends RowReader<T> {
+public abstract class KeyReferenceColumnReader<T extends KeyReferenceColumnEntity> extends KnownMetaDataReader<T> {
 
-    public KeyReferenceColumnRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected KeyReferenceColumnReader(final ResultSet resultSet, final Supplier<T> constructor, final boolean strict) {
+        super(resultSet, constructor, strict);
     }
 
-    void read(KeyReferenceColumnEntity row) throws SQLException {
+    @Override
+    protected void transfer(KeyReferenceColumnEntity row) throws SQLException {
 
         row.primaryKeyTableCatalog = readStringByIndex(PKTABLE_CAT);
         row.primaryKeyTableSchema = readStringByIndex(PKTABLE_SCHEM);

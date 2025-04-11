@@ -1,19 +1,20 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.reader;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.ColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.ColumnEntity;
 
-import static org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition.GetColumnsColDef.*;
+import static org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition.GetColumnsColDef.*;
 
-public class ColumnRowReader extends RowReader<ColumnEntity> {
+public class ColumnReader extends KnownMetaDataReader<ColumnEntity> {
 
-    public ColumnRowReader(final ResultSet resultSet, boolean strict) {
-        super(resultSet, strict);
+    protected ColumnReader(final ResultSet resultSet, final boolean strict) {
+        super(resultSet, ColumnEntity::new, strict);
     }
 
-    public void read(ColumnEntity row) throws SQLException {
+    @Override
+    protected void transfer(ColumnEntity row) throws SQLException {
         row.tableCatalog = readStringByIndex(TABLE_CAT);
         row.tableSchema = readStringByIndex(TABLE_SCHEM);
         row.tableName = readStringByIndex(TABLE_NAME);
