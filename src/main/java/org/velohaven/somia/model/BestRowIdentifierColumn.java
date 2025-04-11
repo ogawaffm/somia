@@ -24,7 +24,7 @@ public class BestRowIdentifierColumn extends PseudoColumnRef<BestRowIdentifierCo
 
     }
 
-    BestRowIdentifierColumn scope(int scope) {
+    public BestRowIdentifierColumn scope(int scope) {
         this.scope = scope;
         return this;
     }

@@ -1,23 +1,25 @@
 package org.velohaven.somia.model;
 
 import lombok.NonNull;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.RdbmsAwareReaderFactory;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.MetadataReaderFactory;
 import org.velohaven.somia.jdbc.datatype.SqlDataTypeInfo;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.BestRowIdentifierEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.CatalogEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.ColumnEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.IndexInfoEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.PrimaryKeyColumnEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.SchemaEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.TableEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.entity.TypeInfoEntity;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.BestRowIdentifierRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.CatalogRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.ColumnRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.IndexInfoRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.PrimaryKeyRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.SchemaRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.TableRowReader;
-import org.velohaven.somia.jdbc.databasemetadata.resultset.reader.TypeInfoRowReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.BestRowIdentifierEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.CatalogEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.ColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.IndexInfoEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.PrimaryKeyColumnEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.SchemaEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.TableEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.entity.TypeInfoEntity;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.BestIdentifierReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.CatalogReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.ColumnReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.IndexInfoReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.PrimaryKeyReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.SchemaReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.TableReader;
+import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.TypeInfoReader;
 import org.velohaven.somia.json.JsonUtils;
 
 import java.sql.Connection;
@@ -26,7 +28,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -71,8 +72,7 @@ public class ModelReader {
         }
     }
 
-    public Model readModel(@NonNull final Connection connection, final int limit)
-        throws SQLException {
+    public Model readModel(@NonNull final Connection connection, final int limit) throws SQLException {
 
         Model model = new Model();
         Catalogs catalogs = readCatalogs(connection);
@@ -101,18 +101,15 @@ public class ModelReader {
 
         try (ResultSet catalogsResultSet = connection.getMetaData().getCatalogs()) {
 
-            Catalog catalog;
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
 
-            CatalogRowReader catalogRowReader = new CatalogRowReader(catalogsResultSet, true);
+            CatalogReader catalogRowReader = rowReaderFactory.createCatalogRowReader(catalogsResultSet, true);
 
-            CatalogEntity catalogEntity;
+            List<CatalogEntity> catalogEntities = catalogRowReader.readAll();
 
-            while (catalogsResultSet.next()) {
+            for (CatalogEntity catalogEntity : catalogEntities) {
 
-                catalogEntity = new CatalogEntity();
-                catalogRowReader.read(catalogEntity);
-
-                catalog = new Catalog();
+                Catalog catalog = new Catalog();
                 catalog.name(ifNull(catalogEntity.tableCatalog, ""));
 
                 Schemas schemas = readSchemas(connection, catalog.name(), null, 0);
@@ -132,12 +129,12 @@ public class ModelReader {
     }
 
     public Schemas readSchemas(@NonNull final Connection connection, final String catalogName,
-        final String schemaNamePattern, final int limit) throws SQLException {
+                               final String schemaNamePattern, final int limit) throws SQLException {
 
         DatabaseMetaData databaseMetaData = connection.getMetaData();
 
         SortedMap<String, SortedMap<String, Schema>> catalogSchemas =
-            readSchemas(databaseMetaData, catalogName, schemaNamePattern, limit == 0 ? Integer.MAX_VALUE : limit);
+                readSchemas(databaseMetaData, catalogName, schemaNamePattern, limit == 0 ? Integer.MAX_VALUE : limit);
 
         Schemas schemas = new Schemas();
 
@@ -153,6 +150,7 @@ public class ModelReader {
     /**
      * Reads the schemas from the database and returns them in a map of catalog names to a map of schema names to
      * schemas in the order of the catalog's name and the schema's name for a deterministically ordered result.
+     *
      * @param databaseMetaData  database metadata
      * @param catalogName       catalog name to filter the schemas or null for no filtering
      * @param schemaNamePattern pattern to filter the schemas or null for no filtering
@@ -160,8 +158,8 @@ public class ModelReader {
      * @return map of catalog names to a map of schema names to schemas sorted by catalog name and schema name
      */
     public SortedMap<String, SortedMap<String, Schema>> readSchemas(@NonNull final DatabaseMetaData databaseMetaData,
-        final String catalogName,
-        final String schemaNamePattern, final int limit) throws SQLException {
+                                                                    final String catalogName,
+                                                                    final String schemaNamePattern, final int limit) throws SQLException {
 
         SortedMap<String, SortedMap<String, Schema>> catalogSchemas = new TreeMap<>();
 
@@ -170,16 +168,14 @@ public class ModelReader {
             SortedMap<String, Schema> schemas;
             int schemaCount = 0;
 
-            Schema schema;
-            SchemaEntity schemaEntity;
-            SchemaRowReader schemaRowReader = new SchemaRowReader(schemasResultSet, true);
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
+            SchemaReader schemaRowReader = rowReaderFactory.createSchemaRowReader(schemasResultSet, true);
 
-            while (schemasResultSet.next() && schemaCount < limit) {
+            List<SchemaEntity> schemaEntities = schemaRowReader.readAll();
 
-                schemaEntity = new SchemaEntity();
-                schemaRowReader.read(schemaEntity);
+            for (SchemaEntity schemaEntity : schemaEntities) {
 
-                schema = new Schema();
+                Schema schema = new Schema();
                 schema.catalogName(ifNull(schemaEntity.tableCatalog, ""));
                 schema.name(ifNull(schemaEntity.tableSchema, ""));
 
@@ -187,7 +183,6 @@ public class ModelReader {
                 schemas.put(schema.name(), schema);
 
                 schemaCount++;
-
             }
 
         } catch (Exception exception) {
@@ -199,9 +194,9 @@ public class ModelReader {
     }
 
     public Table readTable(@NonNull final Connection connection,
-        final String catalogName,
-        final String schemaName,
-        @NonNull final String tableName) throws SQLException {
+                           final String catalogName,
+                           final String schemaName,
+                           @NonNull final String tableName) throws SQLException {
 
         Map<String, Table> tables = readTables(connection, catalogName, schemaName, tableName, 1);
 
@@ -210,17 +205,17 @@ public class ModelReader {
     }
 
     Map<String, Table> readTables(@NonNull final Connection connection,
-        final String catalogName, final String schemaNamePattern, final String tableNamePattern, final int limit
+                                  final String catalogName, final String schemaNamePattern, final String tableNamePattern, final int limit
     ) throws SQLException {
 
         // read table info (without columns)
         Map<String, Table> tablesInfo = readTablesInfo(
-            connection, catalogName, schemaNamePattern, tableNamePattern, limit
+                connection, catalogName, schemaNamePattern, tableNamePattern, limit
         );
 
         // read columns
         Map<String, SortedMap<Integer, Column>> tableColumns =
-            readColumns(connection, catalogName, schemaNamePattern, tableNamePattern);
+                readColumns(connection, catalogName, schemaNamePattern, tableNamePattern);
 
         // add columns to tables
         for (Table table : tablesInfo.values()) {
@@ -235,6 +230,7 @@ public class ModelReader {
 
     /**
      * Reads the table information from the database, including primary key and indexes but without columns.
+     *
      * @param connection         Connection to the database
      * @param catalogNamePattern Catalog name pattern to filter the tables or null for no filtering
      * @param schemaNamePattern  Schema name pattern to filter the tables or null for no filtering
@@ -243,8 +239,8 @@ public class ModelReader {
      * @return Map of full table names to tables sorted by full table name
      */
     Map<String, Table> readTablesInfo(@NonNull final Connection connection,
-        final String catalogNamePattern, final String schemaNamePattern,
-        final String tableNamePattern, final int limit) throws SQLException {
+                                      final String catalogNamePattern, final String schemaNamePattern,
+                                      final String tableNamePattern, final int limit) throws SQLException {
 
         // Map of full table names to tables sorted by full table name
         Map<String, Table> tables = new TreeMap<>();
@@ -254,12 +250,13 @@ public class ModelReader {
         DatabaseMetaData databaseMetaData = connection.getMetaData();
 
         try (ResultSet tablesResultSet = databaseMetaData.getTables(catalogNamePattern, schemaNamePattern,
-            tableNamePattern,
-            null)
+                tableNamePattern,
+                null)
         ) {
 
             Table table;
-            TableRowReader tableRowReader = new TableRowReader(tablesResultSet, true);
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
+            TableReader tableRowReader = rowReaderFactory.createTableRowReader(tablesResultSet, true);
 
             // TODO:
             // read the information which has been given to identify the table, because the default catalog/schema could
@@ -267,9 +264,16 @@ public class ModelReader {
             // the table within the db. For SQL Server it is the other way round, a passed catalog argument is
             // returned as null in the resultSet. Below maximum info is kept.
 
-            while (tablesResultSet.next() && tables.size() < limit) {
+            List<TableEntity> tableEntities = tableRowReader.read(1, limit);
 
-                table = createTable(tableRowReader);
+            for (TableEntity tableEntity : tableEntities) {
+                table = new Table();
+                table.catalogName(ifNull(tableEntity.tableCatalog, ""));
+                table.schemaName(ifNull(tableEntity.tableSchema, ""));
+                table.name(ifNull(tableEntity.tableName, ""));
+                table.collation("");
+                table.comment(ifNull(tableEntity.remarks, ""));
+                table.typeName(ifNull(tableEntity.tableType, ""));
 
                 table.primaryKey(readPrimaryKey(connection, table));
 
@@ -294,28 +298,11 @@ public class ModelReader {
 
     }
 
-    Table createTable(@NonNull final TableRowReader tableRowReader) throws SQLException {
-
-        TableEntity tableEntity = new TableEntity();
-        tableRowReader.read(tableEntity);
-
-        Table table = new Table();
-        table.catalogName(ifNull(tableEntity.tableCatalog, ""));
-        table.schemaName(ifNull(tableEntity.tableSchema, ""));
-        table.name(tableEntity.tableName);
-        table.collation("");
-        table.comment(ifNull(tableEntity.remarks, ""));
-        table.typeName(tableEntity.tableType);
-
-        return table;
-
-    }
-
     Map<String, SortedMap<Integer, Column>> readColumns(
-        @NonNull final Connection connection,
-        String catalogNamePattern,
-        String schemaNamePattern,
-        String namePattern
+            @NonNull final Connection connection,
+            String catalogNamePattern,
+            String schemaNamePattern,
+            String namePattern
     ) throws SQLException {
 
         // Map of full table names to a map of column positions to columns
@@ -325,18 +312,18 @@ public class ModelReader {
         SortedMap<Integer, Column> tableColumns;
 
         try (ResultSet columnsResultSet = connection.getMetaData().getColumns(
-            catalogNamePattern, schemaNamePattern, namePattern, null)
+                catalogNamePattern, schemaNamePattern, namePattern, null)
         ) {
 
-            ColumnRowReader columnRowReader = new ColumnRowReader(columnsResultSet, true);
-            ColumnEntity columnEntity;
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
+            ColumnReader columnRowReader = rowReaderFactory.createColumnRowReader(columnsResultSet, true);
 
-            while (columnsResultSet.next()) {
+            List<ColumnEntity> columnEntities = columnRowReader.readAll();
 
-                columnEntity = readColumn(columnRowReader);
+            for (ColumnEntity columnEntity : columnEntities) {
 
                 String fullTableName = getFullQuotedIdentifier(
-                    columnEntity.tableCatalog, columnEntity.tableSchema, columnEntity.tableName
+                        columnEntity.tableCatalog, columnEntity.tableSchema, columnEntity.tableName
                 );
 
                 tableColumns = fullTableNameToColumns.computeIfAbsent(fullTableName, k -> new TreeMap<>());
@@ -347,49 +334,55 @@ public class ModelReader {
 
         } catch (SQLException exception) {
             throw new SQLException(
-                "Columns of " + getFullQuotedIdentifier(catalogNamePattern, schemaNamePattern, namePattern)
-                    + " could not be read.", exception);
+                    "Columns of " + getFullQuotedIdentifier(catalogNamePattern, schemaNamePattern, namePattern)
+                            + " could not be read.", exception);
         }
         return fullTableNameToColumns;
     }
 
-    ColumnEntity readColumn(@NonNull final ColumnRowReader columnRowReader) throws SQLException {
-
-        ColumnEntity columnEntity = new ColumnEntity();
-        columnRowReader.read(columnEntity);
-        return columnEntity;
-    }
-
+    /**
+     * Creates a column with the given parameters as they were read from the database.
+     *
+     * @param columnEntity column entity
+     * @return created Column
+     */
     Column createColumn(@NonNull final ColumnEntity columnEntity) {
 
         return createColumn(
-            columnEntity.columnName,
-            columnEntity.remarks,
-            columnEntity.columnDef,
-            createDataType(columnEntity)
+                columnEntity.columnName,
+                columnEntity.remarks,
+                columnEntity.columnDef,
+                createDataType(columnEntity)
         );
 
     }
 
+    /**
+     * Creates a Column for a pseudo column with the given parameters as they were read from the database.
+     *
+     * @param bestRowIdentifier best row identifier entity
+     * @return created Column
+     */
     Column createPseudoColumn(@NonNull final BestRowIdentifierEntity bestRowIdentifier) {
         return createColumn(
-            ifNull(bestRowIdentifier.columnName, ""),
-            "",
-            "",
-            createDataType(bestRowIdentifier)
+                ifNull(bestRowIdentifier.columnName, ""),
+                "",
+                "",
+                createDataType(bestRowIdentifier)
         );
     }
 
     /**
      * Creates a column with the given parameters as they were read from the database. This method replaces null values
      * with empty strings or 0.
+     *
      * @param columnName column name
      * @param remarks    column remarks/comment
      * @param columnDef  column default value definition
      * @param dataType   data type of the column
      * @return created TableColumn
      */
-    Column createColumn(String columnName, String remarks, String columnDef, JdbcDataType dataType) {
+    Column createColumn(final String columnName, final String remarks, final String columnDef, final JdbcDataType dataType) {
 
         Column column = new Column();
         column.name(columnName);
@@ -400,39 +393,63 @@ public class ModelReader {
         return column;
     }
 
+    /**
+     * Creates a data type with the given parameters as they were read from the database.
+     *
+     * @param bestRowIdentifier best row identifier entity
+     * @return created JdbcDataType
+     */
     JdbcDataType createDataType(@NonNull final BestRowIdentifierEntity bestRowIdentifier) {
         return createDataType(
-            bestRowIdentifier.dataType,
-            bestRowIdentifier.typeName,
-            bestRowIdentifier.columnSize,
-            bestRowIdentifier.decimalDigits,
-            null,
-            null,
-            null
+                bestRowIdentifier.dataType,
+                bestRowIdentifier.typeName,
+                bestRowIdentifier.columnSize,
+                bestRowIdentifier.decimalDigits,
+                null,
+                null,
+                null
         );
     }
 
+    /**
+     * Creates a data type with the given parameters as they were read from the database.
+     *
+     * @param columnEntity column entity
+     * @return created JdbcDataType
+     */
     JdbcDataType createDataType(@NonNull final ColumnEntity columnEntity) {
         return createDataType(
-            columnEntity.dataType,
-            columnEntity.typeName,
-            columnEntity.columnSize,
-            columnEntity.decimalDigits,
-            columnEntity.isNullable,
-            columnEntity.isAutoIncrement,
-            columnEntity.numericPrecisionRadix
+                columnEntity.dataType,
+                columnEntity.typeName,
+                columnEntity.columnSize,
+                columnEntity.decimalDigits,
+                columnEntity.isNullable,
+                columnEntity.isAutoIncrement,
+                columnEntity.numericPrecisionRadix
         );
     }
 
 
+    /**
+     * Creates a data type with the given parameters as they are returned ResultSet of {@link java.sql.DatabaseMetaData#getColumns} method.
+     *
+     * @param dataType              data type number from column DATA_TYPE
+     * @param typeName              data type name from column TYPE_NAME
+     * @param columnSize            column size from column COLUMN_SIZE
+     * @param decimalDigits         decimal digits from column DECIMAL_DIGITS
+     * @param isNullable            Nullability from column IS_NULLABLE
+     * @param isAutoIncrement       Auto increment from column IS_AUTOINCREMENT
+     * @param numericPrecisionRadix Numeric precision radix from column NUMERIC_PRECISION_RADIX
+     * @return created JdbcDataType
+     */
     JdbcDataType createDataType(
-        Integer dataType,
-        String typeName,
-        Integer columnSize,
-        Integer decimalDigits,
-        String isNullable,
-        String isAutoIncrement,
-        Integer numericPrecisionRadix) {
+            Integer dataType,
+            String typeName,
+            Integer columnSize,
+            Integer decimalDigits,
+            String isNullable,
+            String isAutoIncrement,
+            Integer numericPrecisionRadix) {
 
         JdbcDataType dataTypeDefaults;
 
@@ -453,27 +470,35 @@ public class ModelReader {
 
         @SuppressWarnings("UnnecessaryLocalVariable")
         JdbcDataType jdbcDataType = new JdbcDataType(
-            ifNull(typeName, dataTypeDefaults.name()),
-            ifNull(dataType, dataTypeDefaults.typeNumber()),
-            dataTypeDefaults.className(),
-            ifNull(columnSize, 0),
-            ifNull(decimalDigits, 0),
-            "YES".equalsIgnoreCase(ifNull(isNullable, "YES")),
-            "YES".equalsIgnoreCase(ifNull(isAutoIncrement, "NO")),
-            ifNull(numericPrecisionRadix, 0),
-            dataTypeDefaults.isCaseSensitive(),
-            dataTypeDefaults.isSearchable(),
-            dataTypeDefaults.isSigned(),
-            dataTypeDefaults.isCurrency(),
-            dataTypeDefaults.columnDisplaySize(),
-            null
+                ifNull(typeName, dataTypeDefaults.name()),
+                ifNull(dataType, dataTypeDefaults.typeNumber()),
+                dataTypeDefaults.className(),
+                ifNull(columnSize, 0),
+                ifNull(decimalDigits, 0),
+                "YES".equalsIgnoreCase(ifNull(isNullable, "YES")),
+                "YES".equalsIgnoreCase(ifNull(isAutoIncrement, "NO")),
+                ifNull(numericPrecisionRadix, 0),
+                dataTypeDefaults.isCaseSensitive(),
+                dataTypeDefaults.isSearchable(),
+                dataTypeDefaults.isSigned(),
+                dataTypeDefaults.isCurrency(),
+                dataTypeDefaults.columnDisplaySize(),
+                null
         );
 
         return jdbcDataType;
     }
 
+    /**
+     * Reads the primary key of a table from the database.
+     *
+     * @param connection Connection to the database
+     * @param table      Table to read the primary key for
+     * @return PrimaryKey object with the primary key columns
+     * @throws SQLException if the primary key could not be read
+     */
     PrimaryKey readPrimaryKey(@NonNull final Connection connection, @NonNull final Table table)
-        throws SQLException {
+            throws SQLException {
 
         // Primary key columns come in the order of the column name, so we need to sort them by keySeq
         SortedMap<Integer, PrimaryKeyColumn> primaryKeyColumns = new TreeMap<>();
@@ -481,20 +506,22 @@ public class ModelReader {
         PrimaryKey primaryKey = null;
 
         try (
-            ResultSet primaryKeyColumnResultSet =
-                connection.getMetaData().getPrimaryKeys(table.catalogName(), table.schemaName(), table.name())
+                ResultSet primaryKeyColumnResultSet =
+                        connection.getMetaData().getPrimaryKeys(table.catalogName(), table.schemaName(), table.name())
         ) {
 
-            PrimaryKeyRowReader primaryKeyRowReader = new PrimaryKeyRowReader(primaryKeyColumnResultSet, true);
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
+            PrimaryKeyReader primaryKeyRowReader = rowReaderFactory.createPrimaryKeyRowReader(primaryKeyColumnResultSet, true);
 
             PrimaryKeyColumnEntity primaryKeyEntity;
 
             PrimaryKeyColumn keyColumn;
 
-            while (primaryKeyColumnResultSet.next()) {
+            List<PrimaryKeyColumnEntity> primaryKeyColumnEntities = primaryKeyRowReader.readAll();
 
-                primaryKeyEntity = new PrimaryKeyColumnEntity();
-                primaryKeyRowReader.read(primaryKeyEntity);
+            for (PrimaryKeyColumnEntity primaryKeyColumnEntity : primaryKeyColumnEntities) {
+
+                primaryKeyEntity = primaryKeyColumnEntity;
 
                 if (primaryKeyEntity.keySeq == 1) {
                     primaryKey = new PrimaryKey();
@@ -522,27 +549,32 @@ public class ModelReader {
 
     }
 
+    /**
+     * Reads the indexes of a table from the database.
+     *
+     * @param connection Connection to the database
+     * @param table      Table to read the indexes for
+     * @return List of Index objects with the index columns
+     * @throws SQLException if the indexes could not be read
+     */
     List<Index> readIndexes(@NonNull final Connection connection, @NonNull final Table table) throws SQLException {
 
         Map<String, Index> fullNameToIndex = new HashMap<>();
         Map<String, SortedMap<Integer, IndexColumn>> indexToOrderedIndexColumns = new HashMap<>();
 
         try (ResultSet indexesResultSet =
-            connection.getMetaData()
-                .getIndexInfo(table.catalogName(), table.schemaName(), table.name(), false, true)) {
+                     connection.getMetaData()
+                             .getIndexInfo(table.catalogName(), table.schemaName(), table.name(), false, true)) {
 
-            IndexInfoRowReader indexInfoRowReader = new IndexInfoRowReader(indexesResultSet, false);
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
+            IndexInfoReader indexInfoRowReader = rowReaderFactory.createIndexInfoRowReader(indexesResultSet, false);
 
-            IndexInfoEntity indexInfoEntity;
             Index index;
             IndexColumn indexColumn;
 
-            while (indexesResultSet.next()) {
+            List<IndexInfoEntity> indexInfoEntities = indexInfoRowReader.readAll();
 
-                indexInfoEntity = new IndexInfoEntity();
-
-                indexInfoRowReader.read(indexInfoEntity);
-
+            for (IndexInfoEntity indexInfoEntity : indexInfoEntities) {
                 String indexName = ifNull(indexInfoEntity.indexName, "");
                 int ordinalPosition = ifNull(indexInfoEntity.ordinalPosition, 0);
 
@@ -596,8 +628,6 @@ public class ModelReader {
 
                     indexToOrderedIndexColumns.get(indexName).put(ordinalPosition, indexColumn);
                 }
-
-
             }
 
         } catch (SQLException exception) {
@@ -609,91 +639,13 @@ public class ModelReader {
             Map<Integer, IndexColumn> indexColumnsMap = indexToOrderedIndexColumns.get(index.name());
             Collection<IndexColumn> indexColumns = indexColumnsMap.values();
             index.columns().appendAll(indexColumns);
-            //index.columns().appendAll(indexToOrderedIndexColumns.get(index.fullQuotedIdentifier()).values());
         }
 
         return new ArrayList<>(fullNameToIndex.values());
     }
 
-    List<Table> oldReadTables(@NonNull final Connection connection,
-        final String catalogName, final String schemaNamePattern,
-        final String tableNamePattern, final int limit) throws SQLException {
-
-        List<Table> tables = new ArrayList<>();
-
-        String fullName = getFullQuotedIdentifier(catalogName, schemaNamePattern, tableNamePattern);
-
-        DatabaseMetaData databaseMetaData = connection.getMetaData();
-
-        try (ResultSet tablesResultSet = databaseMetaData.getTables(catalogName, schemaNamePattern, tableNamePattern,
-            null)
-        ) {
-
-            Table table;
-            TableRowReader tableRowReader = new TableRowReader(tablesResultSet, true);
-
-            // read the information which has been given to identify the table, because the default catalog/schema could
-            // be returned if null for catalog/schema was passed and to retrieve the original capitalization of
-            // the table within the db. For SQL Server it is the other way round, a passed catalog argument is
-            // returned as null in the resultSet. Below maximum info is kept.
-
-            while (tablesResultSet.next() && tables.size() < limit) {
-
-                table = createTable(tableRowReader);
-
-                try (ResultSet columnsResultSet = databaseMetaData.getColumns(
-                    table.catalogName(), table.schemaName(), table.name(), null)
-                ) {
-
-                    ColumnRowReader columnRowReader = new ColumnRowReader(columnsResultSet, true);
-                    ColumnEntity columnEntity;
-
-                    while (columnsResultSet.next()) {
-
-                        columnEntity = readColumn(columnRowReader);
-
-                        // is this column part of the current table?
-                        if (table.catalogName().equals(columnEntity.tableCatalog) &&
-                            table.schemaName().equals(columnEntity.tableSchema) &&
-                            table.name().equals(columnEntity.tableName)) {
-
-                            // yes, this column belongs to the current table so add it
-                            table.columns().append(createColumn(columnEntity));
-
-                        } else {
-                            // no, this column does not belong to the current table, but to the next one
-                            columnsResultSet.previous();
-                            break;
-                        }
-                    }
-
-                }
-
-                if (table.columns().isEmpty()) {
-                    throw new IllegalStateException("Columns of " + fullName + " could not be read.");
-                }
-
-                table.primaryKey(readPrimaryKey(connection, table));
-
-                table.indexes().appendAll(readIndexes(connection, table));
-
-                tables.add(table);
-
-            }
-
-        } catch (Exception exception) {
-            throw new SQLException("Table " + fullName + " could not be read.", exception);
-        }
-
-        // e.g. H2 returns the tables sorted by table type, so sort them by name as defined in the method signature
-        Collections.sort(tables);
-
-        return tables;
-
-    }
-
     void readUserDefinedTypes(@NonNull Connection connection, String catalogName, String schemaName,
-        String udtName) throws SQLException {
+                              String udtName) throws SQLException {
         try (ResultSet udtResultSet = connection.getMetaData().getUDTs(catalogName, schemaName, udtName, null)) {
             System.out.println(JsonUtils.serialize(udtResultSet));
         }
@@ -703,17 +655,17 @@ public class ModelReader {
 
         Set<TypeInfo> typeInfos = new LinkedHashSet<>(); // LinkedHashSet to keep the order of the types
 
-        TypeInfoRowReader typeInfoRowReader;
-        TypeInfoEntity typeInfoEntity;
+        TypeInfoReader typeInfoRowReader;
         TypeInfo typeInfo;
 
         try (ResultSet typeInfoResultSet = connection.getMetaData().getTypeInfo()) {
 
-            typeInfoRowReader = new TypeInfoRowReader(typeInfoResultSet, true);
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
+            typeInfoRowReader = rowReaderFactory.createTypeInfoRowReader(typeInfoResultSet, true);
 
-            while (typeInfoResultSet.next()) {
-                typeInfoEntity = new TypeInfoEntity();
-                typeInfoRowReader.read(typeInfoEntity);
+            List<TypeInfoEntity> typeInfoEntities = typeInfoRowReader.readAll();
+
+            for (TypeInfoEntity typeInfoEntity : typeInfoEntities) {
 
                 typeInfo = new TypeInfo();
 
@@ -753,28 +705,27 @@ public class ModelReader {
     }
 
     public List<BestRowIdentifierColumn> readBestRowIdentifier(@NonNull Connection connection, Table table)
-        throws SQLException {
+            throws SQLException {
 
         List<BestRowIdentifierColumn> bestRowIdentifiers = new ArrayList<>();
 
         try (ResultSet bestRowIdentifierResultSet = connection.getMetaData().getBestRowIdentifier(
-            table.catalogName(),
-            table.schemaName(),
-            table.name(),
-            //bestRowSession,
-            2,
-            true
+                table.catalogName(),
+                table.schemaName(),
+                table.name(),
+                //bestRowSession,
+                2,
+                true
         )) {
 
-            BestRowIdentifierEntity bestRowIdentifierEntity;
-            BestRowIdentifierRowReader bestRowIdentifierReader =
-                new BestRowIdentifierRowReader(bestRowIdentifierResultSet, true);
+            MetadataReaderFactory rowReaderFactory = new RdbmsAwareReaderFactory();
 
-            while (bestRowIdentifierResultSet.next()) {
+            BestIdentifierReader bestRowIdentifierReader =
+                    rowReaderFactory.createBestRowIdentifierRowReader(bestRowIdentifierResultSet, true);
 
-                bestRowIdentifierEntity = new BestRowIdentifierEntity();
-                bestRowIdentifierReader.read(bestRowIdentifierEntity);
+            List<BestRowIdentifierEntity> bestRowIdentifierEntities = bestRowIdentifierReader.readAll();
 
+            for (BestRowIdentifierEntity bestRowIdentifierEntity : bestRowIdentifierEntities) {
                 BestRowIdentifierColumn bestRowIdentifier = new BestRowIdentifierColumn();
 
                 bestRowIdentifier.name(ifNull(bestRowIdentifierEntity.columnName, ""));
@@ -786,12 +737,11 @@ public class ModelReader {
                 bestRowIdentifier.pseudoColumn(bestRowIdentifierEntity.pseudoColumn);
 
                 bestRowIdentifiers.add(bestRowIdentifier);
-
             }
 
         } catch (SQLException exception) {
             throw new SQLException("BestRowIdentifier " + table.fullQuotedIdentifier() + " could not be read.",
-                exception);
+                    exception);
         }
 
         return bestRowIdentifiers;
