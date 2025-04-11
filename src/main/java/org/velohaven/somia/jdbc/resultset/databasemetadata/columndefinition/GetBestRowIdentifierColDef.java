@@ -1,4 +1,4 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,13 +11,13 @@ import static java.sql.JDBCType.*;
 
 /**
  * The column names, ordinal positions, types and nullability for the
- * {@link DatabaseMetaData#getVersionColumns(String, String, String)}
+ * {@link DatabaseMetaData#getBestRowIdentifier(String, String, String, int, boolean)} method.
  * method.
  */
 @Accessors(fluent = true)
 @Getter(onMethod_ = @Override)
 @AllArgsConstructor
-public enum GetVersionColumnsColDef implements ColDefByEnum<GetVersionColumnsColDef> {
+public enum GetBestRowIdentifierColDef implements ColDefByEnum<GetBestRowIdentifierColDef> {
 
     SCOPE(SMALLINT, true),
     COLUMN_NAME(VARCHAR, false),
@@ -28,7 +28,7 @@ public enum GetVersionColumnsColDef implements ColDefByEnum<GetVersionColumnsCol
     DECIMAL_DIGITS(SMALLINT, true),
     PSEUDO_COLUMN(SMALLINT, true);
 
-    private final SQLType sqlType;
-    private final boolean isNullable;
+    final private SQLType sqlType;
+    final private boolean isNullable;
 
 }

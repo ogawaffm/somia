@@ -1,4 +1,4 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,24 +11,23 @@ import static java.sql.JDBCType.*;
 
 /**
  * The column names, ordinal positions, types and nullability for the
- * {@link DatabaseMetaData#getColumnPrivileges(String, String, String, String)}
+ * {@link DatabaseMetaData#getTablePrivileges(String, String, String)}
  * method.
  */
 @Accessors(fluent = true)
 @Getter(onMethod_ = @Override)
 @AllArgsConstructor
-public enum GetColumnPrivilegesColDef implements ColDefByEnum<GetColumnPrivilegesColDef> {
+public enum GetTablePrivilegesColDef implements ColDefByEnum<GetTablePrivilegesColDef> {
 
     TABLE_CAT(VARCHAR, true),
     TABLE_SCHEM(VARCHAR, true),
     TABLE_NAME(VARCHAR, false),
-    COLUMN_NAME(VARCHAR, false),
     GRANTOR(VARCHAR, true),
     GRANTEE(VARCHAR, false),
     PRIVILEGE(VARCHAR, false),
     IS_GRANTABLE(VARCHAR, true);
 
-    final private SQLType sqlType;
-    final private boolean isNullable;
+    private final SQLType sqlType;
+    private final boolean isNullable;
 
 }

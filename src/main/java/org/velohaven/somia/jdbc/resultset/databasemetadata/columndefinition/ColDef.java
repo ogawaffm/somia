@@ -1,4 +1,4 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import java.sql.SQLType;
 
@@ -10,6 +10,7 @@ public interface ColDef<T extends ColDef<T>> extends Comparable<T> {
 
     /**
      * 1-based ordinal position
+     *
      * @return 1-based ordinal position
      */
     int ordinalPosition();
@@ -22,6 +23,7 @@ public interface ColDef<T extends ColDef<T>> extends Comparable<T> {
     /**
      * Compares this object with the specified object for a deterministic order.  Returns a negative integer, zero,
      * or a positive integer as this object is less than, equal to, or greater than the specified object.
+     *
      * @param other the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
      */

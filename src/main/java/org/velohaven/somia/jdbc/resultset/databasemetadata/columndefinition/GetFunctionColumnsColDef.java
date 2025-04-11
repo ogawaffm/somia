@@ -1,28 +1,27 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
 import java.sql.DatabaseMetaData;
+import java.sql.SQLType;
 
 import static java.sql.JDBCType.*;
 
-import java.sql.SQLType;
-
 /**
  * The column names, ordinal positions, types and nullability for the
- * {@link DatabaseMetaData#getProcedureColumns(String, String, String, String)}
+ * {@link DatabaseMetaData#getFunctionColumns(String, String, String, String)}
  * method.
  */
 @Accessors(fluent = true)
 @Getter(onMethod_ = @Override)
 @AllArgsConstructor
-public enum GetProcedureColumnsColDef implements ColDefByEnum<GetProcedureColumnsColDef> {
+public enum GetFunctionColumnsColDef implements ColDefByEnum<GetFunctionColumnsColDef> {
 
-    PROCEDURE_CAT(VARCHAR, true),
-    PROCEDURE_SCHEM(VARCHAR, true),
-    PROCEDURE_NAME(VARCHAR, false),
+    FUNCTION_CAT(VARCHAR, true),
+    FUNCTION_SCHEM(VARCHAR, true),
+    FUNCTION_NAME(VARCHAR, false),
     COLUMN_NAME(VARCHAR, false),
     COLUMN_TYPE(SMALLINT, false),
     DATA_TYPE(INTEGER, false),
@@ -33,9 +32,6 @@ public enum GetProcedureColumnsColDef implements ColDefByEnum<GetProcedureColumn
     RADIX(SMALLINT, true),
     NULLABLE(SMALLINT, false),
     REMARKS(VARCHAR, true),
-    COLUMN_DEF(VARCHAR, true),
-    SQL_DATA_TYPE(INTEGER, true),
-    SQL_DATETIME_SUB(INTEGER, true),
     CHAR_OCTET_LENGTH(INTEGER, true),
     ORDINAL_POSITION(INTEGER, false),
     IS_NULLABLE(VARCHAR, false),

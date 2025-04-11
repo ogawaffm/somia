@@ -1,9 +1,10 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 interface ColDefByEnum<T extends ColDefByEnum<T>> extends ColDef<T> {
 
     /**
      * 0-based ordinal
+     *
      * @return 0-based ordinal
      */
     int ordinal();

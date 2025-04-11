@@ -1,4 +1,4 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,15 +11,20 @@ import static java.sql.JDBCType.*;
 
 /**
  * The column names, ordinal positions, types and nullability for the
- * {@link DatabaseMetaData#getCatalogs()}
+ * {@link DatabaseMetaData#getFunctions(String, String, String)}
  * method.
  */
 @Accessors(fluent = true)
 @Getter(onMethod_ = @Override)
 @AllArgsConstructor
-public enum GetCatalogsColDef implements ColDefByEnum<GetCatalogsColDef> {
+public enum GetFunctionsColDef implements ColDefByEnum<GetFunctionsColDef> {
 
-    TABLE_CAT(VARCHAR, false);
+    FUNCTION_CAT(VARCHAR, true),
+    FUNCTION_SCHEM(VARCHAR, true),
+    FUNCTION_NAME(VARCHAR, false),
+    REMARKS(VARCHAR, true),
+    FUNCTION_TYPE(SMALLINT, false),
+    SPECIFIC_NAME(VARCHAR, false);
 
     final private SQLType sqlType;
     final private boolean isNullable;

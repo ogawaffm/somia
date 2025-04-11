@@ -1,4 +1,4 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,20 +11,19 @@ import static java.sql.JDBCType.*;
 
 /**
  * The column names, ordinal positions, types and nullability for the
- * {@link DatabaseMetaData#getFunctions(String, String, String)}
+ * {@link DatabaseMetaData#getClientInfoProperties()}
  * method.
  */
 @Accessors(fluent = true)
 @Getter(onMethod_ = @Override)
 @AllArgsConstructor
-public enum GetFunctionsColDef implements ColDefByEnum<GetFunctionsColDef> {
+public enum GetClientInfoPropertiesColDef implements ColDefByEnum<GetClientInfoPropertiesColDef> {
 
-    FUNCTION_CAT(VARCHAR, true),
-    FUNCTION_SCHEM(VARCHAR, true),
-    FUNCTION_NAME(VARCHAR, false),
-    REMARKS(VARCHAR, true),
-    FUNCTION_TYPE(SMALLINT, false),
-    SPECIFIC_NAME(VARCHAR, false);
+    SCOPE(SMALLINT, true),
+    NAME(VARCHAR, false),
+    MAX_LEN(INTEGER, false),
+    DEFAULT_VALUE(VARCHAR, false),
+    DESCRIPTION(VARCHAR, false);
 
     final private SQLType sqlType;
     final private boolean isNullable;

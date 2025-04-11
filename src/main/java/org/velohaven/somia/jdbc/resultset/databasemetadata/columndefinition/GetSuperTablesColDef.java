@@ -1,4 +1,4 @@
-package org.velohaven.somia.jdbc.databasemetadata.resultset.columndefinition;
+package org.velohaven.somia.jdbc.resultset.databasemetadata.columndefinition;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,21 +11,18 @@ import static java.sql.JDBCType.*;
 
 /**
  * The column names, ordinal positions, types and nullability for the
- * {@link DatabaseMetaData#getUDTs(String, String, String, int[])}
+ * {@link DatabaseMetaData#getSuperTables(String, String, String)}
  * method.
  */
 @Accessors(fluent = true)
 @Getter(onMethod_ = @Override)
 @AllArgsConstructor
-public enum GetUDTsColDef implements ColDefByEnum<GetUDTsColDef> {
+public enum GetSuperTablesColDef implements ColDefByEnum<GetSuperTablesColDef> {
 
     TABLE_CAT(VARCHAR, true),
     TABLE_SCHEM(VARCHAR, true),
-    TYPE_NAME(VARCHAR, false),
-    CLASS_NAME(VARCHAR, false),
-    DATA_TYPE(INTEGER, false),
-    REMARKS(VARCHAR, false),
-    BASE_TYPE(SMALLINT, false);
+    TABLE_NAME(VARCHAR, false),
+    SUPERTABLE_NAME(VARCHAR, false);
 
     private final SQLType sqlType;
     private final boolean isNullable;
