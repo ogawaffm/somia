@@ -1,0 +1,74 @@
+{
+  "name" : "NON_UNIQUE_INDEX_ASC_ASC",
+  "catalogName" : "TEST",
+  "schemaName" : "TEST",
+  "typeName" : "BASE TABLE",
+  "comment" : "",
+  "columns" : [ {
+    "name" : "COL_1",
+    "type" : {
+      "name" : "CHARACTER VARYING",
+      "typeNumber" : 12,
+      "className" : "java.lang.String",
+      "precision" : 10,
+      "scale" : 0,
+      "isNullable" : false,
+      "isAutoIncrement" : false,
+      "numericPrecisionRadix" : 0,
+      "isCaseSensitive" : false,
+      "isSearchable" : true,
+      "isSigned" : false,
+      "isCurrency" : false,
+      "columnDisplaySize" : 10,
+      "baseType" : null
+    },
+    "comment" : "",
+    "collation" : "",
+    "defaultDefinition" : ""
+  }, {
+    "name" : "COL_2",
+    "type" : {
+      "name" : "CHARACTER VARYING",
+      "typeNumber" : 12,
+      "className" : "java.lang.String",
+      "precision" : 10,
+      "scale" : 0,
+      "isNullable" : false,
+      "isAutoIncrement" : false,
+      "numericPrecisionRadix" : 0,
+      "isCaseSensitive" : false,
+      "isSearchable" : true,
+      "isSigned" : false,
+      "isCurrency" : false,
+      "columnDisplaySize" : 10,
+      "baseType" : null
+    },
+    "comment" : "",
+    "collation" : "",
+    "defaultDefinition" : ""
+  } ],
+  "indexes" : [ {
+    "name" : "NON_UNIQUE_IDX_ASC_ASC",
+    "columns" : [ {
+      "name" : "COL_1",
+      "order" : "ASC",
+      "isIncluded" : false
+    }, {
+      "name" : "COL_2",
+      "order" : "ASC",
+      "isIncluded" : false
+    } ],
+    "isUnique" : false,
+    "comment" : "",
+    "qualifierName" : "TEST",
+    "isClustered" : false,
+    "isHashed" : false,
+    "isStatistic" : false,
+    "whereClause" : "",
+    "cardinality" : 0,
+    "pages" : 0
+  } ],
+  "collation" : "",
+  "primaryKey" : null,
+  "bestRowIdentifier" : null
+}

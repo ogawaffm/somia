@@ -1,0 +1,71 @@
+{
+  "name": "ANY_DATA_TYPES",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "ANYTYPE_COL",
+      "type": {
+        "name": "ANYTYPE",
+        "typeNumber": 1111,
+        "className": "java.lang.Object",
+        "precision": 3752,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "ANYDATASET_COL",
+      "type": {
+        "name": "ANYDATASET",
+        "typeNumber": 1111,
+        "className": "java.lang.Object",
+        "precision": 3752,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}

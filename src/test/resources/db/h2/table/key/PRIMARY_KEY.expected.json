@@ -1,0 +1,95 @@
+{
+  "name": "PRIMARY_KEY",
+  "catalogName": "TEST",
+  "schemaName": "TEST",
+  "typeName": "BASE TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "ID",
+      "type": {
+        "name": "CHARACTER VARYING",
+        "typeNumber": 12,
+        "className": "java.lang.String",
+        "precision": 10,
+        "scale": 0,
+        "isNullable": false,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 10,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "PRIMARY_KEY_4",
+      "columns": [
+        {
+          "name": "ID",
+          "order": "ASC",
+          "isIncluded": false
+        }
+      ],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "TEST",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": false,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": {
+    "name": "PRIMARY_KEY",
+    "columns": [
+      {
+        "name": "ID"
+      }
+    ],
+    "isUnique": true
+  },
+  "bestRowIdentifier": {
+    "name": "",
+    "columns": [
+      {
+        "name": "ID",
+        "pseudoColumn": 1,
+        "pseudoColumnBaseColumn": {
+          "name": "ID",
+          "type": {
+            "name": "CHARACTER VARYING",
+            "typeNumber": 12,
+            "className": "java.lang.String",
+            "precision": 10,
+            "scale": 0,
+            "isNullable": true,
+            "isAutoIncrement": false,
+            "numericPrecisionRadix": 0,
+            "isCaseSensitive": false,
+            "isSearchable": true,
+            "isSigned": false,
+            "isCurrency": false,
+            "columnDisplaySize": 10,
+            "baseType": null
+          },
+          "comment": "",
+          "collation": "",
+          "defaultDefinition": ""
+        },
+        "scope": 2
+      }
+    ],
+    "isUnique": true
+  }
+}

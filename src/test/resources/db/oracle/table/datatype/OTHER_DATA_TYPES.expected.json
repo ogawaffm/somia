@@ -1,0 +1,203 @@
+{
+  "name": "OTHER_DATA_TYPES",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "ROWID_COL",
+      "type": {
+        "name": "ROWID",
+        "typeNumber": -8,
+        "className": "java.sql.RowId",
+        "precision": 10,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "UROWID_COL",
+      "type": {
+        "name": "UROWID",
+        "typeNumber": -8,
+        "className": "java.sql.RowId",
+        "precision": 4000,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "UROWID_1_COL",
+      "type": {
+        "name": "UROWID",
+        "typeNumber": -8,
+        "className": "java.sql.RowId",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "UROWID_4000_COL",
+      "type": {
+        "name": "UROWID",
+        "typeNumber": -8,
+        "className": "java.sql.RowId",
+        "precision": 4000,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "BFILE_COL",
+      "type": {
+        "name": "BFILE",
+        "typeNumber": -13,
+        "className": "java.lang.Object",
+        "precision": 530,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "LONG_VARCHAR_COL",
+      "type": {
+        "name": "LONG",
+        "typeNumber": -1,
+        "className": "java.lang.String",
+        "precision": 0,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 65535,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "BOOLEAN_COL",
+      "type": {
+        "name": "BOOLEAN",
+        "typeNumber": 16,
+        "className": "java.lang.Boolean",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 5,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "JSON_COL",
+      "type": {
+        "name": "JSON",
+        "typeNumber": 2016,
+        "className": "java.lang.Object",
+        "precision": 8200,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}

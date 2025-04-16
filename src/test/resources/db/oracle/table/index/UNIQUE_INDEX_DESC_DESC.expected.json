@@ -1,0 +1,86 @@
+{
+  "name" : "UNIQUE_INDEX_DESC_DESC",
+  "catalogName" : "",
+  "schemaName" : "TEST",
+  "typeName" : "TABLE",
+  "comment" : "",
+  "columns" : [ {
+    "name" : "COL_1",
+    "type" : {
+      "name" : "VARCHAR2",
+      "typeNumber" : 12,
+      "className" : "java.lang.String",
+      "precision" : 10,
+      "scale" : 0,
+      "isNullable" : false,
+      "isAutoIncrement" : false,
+      "numericPrecisionRadix" : 10,
+      "isCaseSensitive" : false,
+      "isSearchable" : true,
+      "isSigned" : false,
+      "isCurrency" : false,
+      "columnDisplaySize" : 10,
+      "baseType" : null
+    },
+    "comment" : "",
+    "collation" : "",
+    "defaultDefinition" : ""
+  }, {
+    "name" : "COL_2",
+    "type" : {
+      "name" : "VARCHAR2",
+      "typeNumber" : 12,
+      "className" : "java.lang.String",
+      "precision" : 10,
+      "scale" : 0,
+      "isNullable" : false,
+      "isAutoIncrement" : false,
+      "numericPrecisionRadix" : 10,
+      "isCaseSensitive" : false,
+      "isSearchable" : true,
+      "isSigned" : false,
+      "isCurrency" : false,
+      "columnDisplaySize" : 10,
+      "baseType" : null
+    },
+    "comment" : "",
+    "collation" : "",
+    "defaultDefinition" : ""
+  } ],
+  "indexes" : [ {
+    "name" : "",
+    "columns" : [ ],
+    "isUnique" : true,
+    "comment" : "",
+    "qualifierName" : "",
+    "isClustered" : false,
+    "isHashed" : false,
+    "isStatistic" : true,
+    "whereClause" : "",
+    "cardinality" : 0,
+    "pages" : 0
+  }, {
+    "name" : "UNIQUE_IDX_DESC_DESC",
+    "columns" : [ {
+      "name" : "SYS_NC00003$",
+      "order" : "",
+      "isIncluded" : false
+    }, {
+      "name" : "SYS_NC00004$",
+      "order" : "",
+      "isIncluded" : false
+    } ],
+    "isUnique" : true,
+    "comment" : "",
+    "qualifierName" : "",
+    "isClustered" : true,
+    "isHashed" : false,
+    "isStatistic" : false,
+    "whereClause" : "",
+    "cardinality" : 0,
+    "pages" : 0
+  } ],
+  "collation" : "",
+  "primaryKey" : null,
+  "bestRowIdentifier" : null
+}

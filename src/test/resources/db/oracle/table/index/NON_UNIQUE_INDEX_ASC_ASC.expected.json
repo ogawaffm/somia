@@ -1,0 +1,142 @@
+{
+  "name" : "NON_UNIQUE_INDEX_ASC_ASC",
+  "catalogName" : "",
+  "schemaName" : "TEST",
+  "typeName" : "TABLE",
+  "comment" : "",
+  "columns" : [ {
+    "name" : "COL_1",
+    "type" : {
+      "name" : "VARCHAR2",
+      "typeNumber" : 12,
+      "className" : "java.lang.String",
+      "precision" : 10,
+      "scale" : 0,
+      "isNullable" : false,
+      "isAutoIncrement" : false,
+      "numericPrecisionRadix" : 10,
+      "isCaseSensitive" : false,
+      "isSearchable" : true,
+      "isSigned" : false,
+      "isCurrency" : false,
+      "columnDisplaySize" : 10,
+      "baseType" : null
+    },
+    "comment" : "",
+    "collation" : "",
+    "defaultDefinition" : ""
+  }, {
+    "name" : "COL_2",
+    "type" : {
+      "name" : "VARCHAR2",
+      "typeNumber" : 12,
+      "className" : "java.lang.String",
+      "precision" : 10,
+      "scale" : 0,
+      "isNullable" : false,
+      "isAutoIncrement" : false,
+      "numericPrecisionRadix" : 10,
+      "isCaseSensitive" : false,
+      "isSearchable" : true,
+      "isSigned" : false,
+      "isCurrency" : false,
+      "columnDisplaySize" : 10,
+      "baseType" : null
+    },
+    "comment" : "",
+    "collation" : "",
+    "defaultDefinition" : ""
+  } ],
+  "indexes" : [ {
+    "name" : "",
+    "columns" : [ ],
+    "isUnique" : true,
+    "comment" : "",
+    "qualifierName" : "",
+    "isClustered" : false,
+    "isHashed" : false,
+    "isStatistic" : true,
+    "whereClause" : "",
+    "cardinality" : 0,
+    "pages" : 0
+  }, {
+    "name" : "NON_UNIQUE_IDX_ASC_ASC",
+    "columns" : [ {
+      "name" : "COL_1",
+      "order" : "",
+      "isIncluded" : false
+    }, {
+      "name" : "COL_2",
+      "order" : "",
+      "isIncluded" : false
+    } ],
+    "isUnique" : false,
+    "comment" : "",
+    "qualifierName" : "",
+    "isClustered" : true,
+    "isHashed" : false,
+    "isStatistic" : false,
+    "whereClause" : "",
+    "cardinality" : 0,
+    "pages" : 0
+  } ],
+  "collation" : "",
+  "primaryKey" : null,
+  "bestRowIdentifier" : {
+    "name" : "",
+    "columns" : [ {
+      "name" : "COL_1",
+      "pseudoColumn" : 1,
+      "pseudoColumnBaseColumn" : {
+        "name" : "COL_1",
+        "type" : {
+          "name" : "VARCHAR2",
+          "typeNumber" : 12,
+          "className" : "java.lang.String",
+          "precision" : 10,
+          "scale" : 0,
+          "isNullable" : true,
+          "isAutoIncrement" : false,
+          "numericPrecisionRadix" : 0,
+          "isCaseSensitive" : false,
+          "isSearchable" : true,
+          "isSigned" : false,
+          "isCurrency" : false,
+          "columnDisplaySize" : 10,
+          "baseType" : null
+        },
+        "comment" : "",
+        "collation" : "",
+        "defaultDefinition" : ""
+      },
+      "scope" : 2
+    }, {
+      "name" : "COL_2",
+      "pseudoColumn" : 1,
+      "pseudoColumnBaseColumn" : {
+        "name" : "COL_2",
+        "type" : {
+          "name" : "VARCHAR2",
+          "typeNumber" : 12,
+          "className" : "java.lang.String",
+          "precision" : 10,
+          "scale" : 0,
+          "isNullable" : true,
+          "isAutoIncrement" : false,
+          "numericPrecisionRadix" : 0,
+          "isCaseSensitive" : false,
+          "isSearchable" : true,
+          "isSigned" : false,
+          "isCurrency" : false,
+          "columnDisplaySize" : 10,
+          "baseType" : null
+        },
+        "comment" : "",
+        "collation" : "",
+        "defaultDefinition" : ""
+      },
+      "scope" : 2
+    } ],
+    "isUnique" : true
+  }
+}

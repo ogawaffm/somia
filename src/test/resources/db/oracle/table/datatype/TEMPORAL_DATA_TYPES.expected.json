@@ -1,0 +1,313 @@
+{
+  "name": "TEMPORAL_DATA_TYPES",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "DATE_COL",
+      "type": {
+        "name": "DATE",
+        "typeNumber": 93,
+        "className": "java.sql.Timestamp",
+        "precision": 7,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 27,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_COL",
+      "type": {
+        "name": "TIMESTAMP(6)",
+        "typeNumber": 93,
+        "className": "java.sql.Timestamp",
+        "precision": 11,
+        "scale": 6,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 31,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_0_COL",
+      "type": {
+        "name": "TIMESTAMP(0)",
+        "typeNumber": 93,
+        "className": "java.sql.Timestamp",
+        "precision": 7,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 27,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_1_COL",
+      "type": {
+        "name": "TIMESTAMP(1)",
+        "typeNumber": 93,
+        "className": "java.sql.Timestamp",
+        "precision": 11,
+        "scale": 1,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 31,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_9_COL",
+      "type": {
+        "name": "TIMESTAMP(9)",
+        "typeNumber": 93,
+        "className": "java.sql.Timestamp",
+        "precision": 11,
+        "scale": 9,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 31,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_WTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(6) WITH TIME ZONE",
+        "typeNumber": -101,
+        "className": "java.lang.Object",
+        "precision": 13,
+        "scale": 6,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_0_WTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(0) WITH TIME ZONE",
+        "typeNumber": -101,
+        "className": "java.lang.Object",
+        "precision": 13,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_1_WTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(1) WITH TIME ZONE",
+        "typeNumber": -101,
+        "className": "java.lang.Object",
+        "precision": 13,
+        "scale": 1,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_9_WTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(9) WITH TIME ZONE",
+        "typeNumber": -101,
+        "className": "java.lang.Object",
+        "precision": 13,
+        "scale": 9,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_WLTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(6) WITH LOCAL TIME ZONE",
+        "typeNumber": -102,
+        "className": "java.lang.Object",
+        "precision": 11,
+        "scale": 6,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_0_WLTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(0) WITH LOCAL TIME ZONE",
+        "typeNumber": -102,
+        "className": "java.lang.Object",
+        "precision": 7,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_1_WLTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(1) WITH LOCAL TIME ZONE",
+        "typeNumber": -102,
+        "className": "java.lang.Object",
+        "precision": 11,
+        "scale": 1,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "TIMESTAMP_9_WLTZ_COL",
+      "type": {
+        "name": "TIMESTAMP(9) WITH LOCAL TIME ZONE",
+        "typeNumber": -102,
+        "className": "java.lang.Object",
+        "precision": 11,
+        "scale": 9,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}

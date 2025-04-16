@@ -1,0 +1,76 @@
+{
+  "name": "PRIMARY_KEY",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "ID",
+      "type": {
+        "name": "VARCHAR",
+        "typeNumber": 12,
+        "className": "java.lang.String",
+        "precision": 10,
+        "scale": 0,
+        "isNullable": false,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 10,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": false,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    },
+    {
+      "name": "PRIMARY_KEY",
+      "columns": [
+        {
+          "name": "ID",
+          "order": "ASC",
+          "isIncluded": false
+        }
+      ],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "TEST",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": false,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": {
+    "name": "PRIMARY_KEY",
+    "columns": [
+      {
+        "name": "ID"
+      }
+    ],
+    "isUnique": true
+  },
+  "bestRowIdentifier": null
+}

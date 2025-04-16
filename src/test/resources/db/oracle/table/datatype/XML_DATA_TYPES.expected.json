@@ -1,0 +1,137 @@
+{
+  "name": "XML_DATA_TYPES",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "XMLTYPE_COL",
+      "type": {
+        "name": "XMLTYPE",
+        "typeNumber": 2009,
+        "className": "java.sql.SQLXML",
+        "precision": 2000,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": false,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 2147483647,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "URITYPE_COL",
+      "type": {
+        "name": "URITYPE",
+        "typeNumber": 1111,
+        "className": "java.lang.Object",
+        "precision": 256,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "DBURITYPE_COL",
+      "type": {
+        "name": "DBURITYPE",
+        "typeNumber": 1111,
+        "className": "java.lang.Object",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "XDBURITYPE_COL",
+      "type": {
+        "name": "XDBURITYPE",
+        "typeNumber": 1111,
+        "className": "java.lang.Object",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "HTTPURITYPE_COL",
+      "type": {
+        "name": "HTTPURITYPE",
+        "typeNumber": 1111,
+        "className": "java.lang.Object",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}

@@ -1,0 +1,13 @@
+/*
+BEGIN
+    EXECUTE IMMEDIATE 'DROP USER TEST CASCADE';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -1918 THEN -- ORA-01918: user not found
+            RAISE;
+        END IF;
+END;
+/
+CREATE USER TEST IDENTIFIED BY password
+/
+*/

@@ -1,0 +1,145 @@
+{
+  "name": "COLUMN_DEFAULTS",
+  "catalogName": "TEST",
+  "schemaName": "TEST",
+  "typeName": "BASE TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "VARCHAR_10_DEFAULT_TEXT_COL",
+      "type": {
+        "name": "CHARACTER VARYING",
+        "typeNumber": 12,
+        "className": "java.lang.String",
+        "precision": 10,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 10,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": "'TEXT'"
+    },
+    {
+      "name": "DECIMAL_10_2_DEFAULT_1_23_COL",
+      "type": {
+        "name": "DECIMAL",
+        "typeNumber": 3,
+        "className": "java.math.BigDecimal",
+        "precision": 10,
+        "scale": 2,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": true,
+        "isCurrency": false,
+        "columnDisplaySize": 10,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": "1.23"
+    },
+    {
+      "name": "TIMESTAMP_DEFAULT_CURRENT_TIMESTAMP_COL",
+      "type": {
+        "name": "TIMESTAMP",
+        "typeNumber": 93,
+        "className": "java.sql.Timestamp",
+        "precision": 26,
+        "scale": 6,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 46,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "BOOLEAN_DEFAULT_FALSE_COL",
+      "type": {
+        "name": "BOOLEAN",
+        "typeNumber": 16,
+        "className": "java.lang.Boolean",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 5,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": "FALSE"
+    },
+    {
+      "name": "BOOLEAN_DEFAULT_true_COL",
+      "type": {
+        "name": "BOOLEAN",
+        "typeNumber": 16,
+        "className": "java.lang.Boolean",
+        "precision": 1,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 0,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 5,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": "TRUE"
+    },
+    {
+      "name": "INTEGER_DEFAULT_NULL_COL",
+      "type": {
+        "name": "INTEGER",
+        "typeNumber": 4,
+        "className": "java.lang.Integer",
+        "precision": 32,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 2,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": true,
+        "isCurrency": false,
+        "columnDisplaySize": 11,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": "NULL"
+    }
+  ],
+  "indexes": [],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}

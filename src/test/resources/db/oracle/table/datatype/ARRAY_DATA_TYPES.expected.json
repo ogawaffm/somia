@@ -1,0 +1,203 @@
+{
+  "name": "ARRAY_DATA_TYPES",
+  "catalogName": "",
+  "schemaName": "TEST",
+  "typeName": "TABLE",
+  "comment": "",
+  "columns": [
+    {
+      "name": "VARRAY_5_VARCHAR2_50_COL",
+      "type": {
+        "name": "VARRAY_5_VARCHAR2_50_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 272,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_NUMBER_2_1_COL",
+      "type": {
+        "name": "VARRAY_5_NUMBER_2_1_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 132,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_TIMESTAMP_3_COL",
+      "type": {
+        "name": "VARRAY_5_TIMESTAMP_3_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 77,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_INTERVAL_DAY_3_TO_SECOND_1_COL",
+      "type": {
+        "name": "VARRAY_5_INTERVAL_DAY_3_TO_SECOND_1_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 77,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_SDO_GEOMETRY_COL",
+      "type": {
+        "name": "VARRAY_5_SDO_GEOMETRY_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 3752,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_ANYTYPE_COL",
+      "type": {
+        "name": "VARRAY_5_ANYTYPE_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 3752,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_BFILE_COL",
+      "type": {
+        "name": "VARRAY_5_BFILE_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 2692,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    },
+    {
+      "name": "VARRAY_5_VARRAY_5_VARCHAR2_50_TYPE",
+      "type": {
+        "name": "VARRAY_5_VARRAY_5_VARCHAR2_50_TYPE",
+        "typeNumber": 2003,
+        "className": "java.sql.Array",
+        "precision": 1402,
+        "scale": 0,
+        "isNullable": true,
+        "isAutoIncrement": false,
+        "numericPrecisionRadix": 10,
+        "isCaseSensitive": false,
+        "isSearchable": true,
+        "isSigned": false,
+        "isCurrency": false,
+        "columnDisplaySize": 0,
+        "baseType": null
+      },
+      "comment": "",
+      "collation": "",
+      "defaultDefinition": ""
+    }
+  ],
+  "indexes": [
+    {
+      "name": "",
+      "columns": [],
+      "isUnique": true,
+      "comment": "",
+      "qualifierName": "",
+      "isClustered": false,
+      "isHashed": false,
+      "isStatistic": true,
+      "whereClause": "",
+      "cardinality": 0,
+      "pages": 0
+    }
+  ],
+  "collation": "",
+  "primaryKey": null,
+  "bestRowIdentifier": null
+}
