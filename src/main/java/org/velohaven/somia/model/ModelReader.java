@@ -21,6 +21,7 @@ import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.Schem
 import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.TableReader;
 import org.velohaven.somia.jdbc.resultset.databasemetadata.reader.standard.TypeInfoReader;
 import org.velohaven.somia.json.JsonUtils;
+import org.velohaven.somia.model.factory.PrimaryKeyFactory;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -275,7 +276,9 @@ public class ModelReader {
                 table.comment(ifNull(tableEntity.remarks, ""));
                 table.typeName(ifNull(tableEntity.tableType, ""));
 
-                table.primaryKey(readPrimaryKey(connection, table));
+                PrimaryKeyFactory primaryKeyFactory = new PrimaryKeyFactory();
+                PrimaryKey primaryKey = primaryKeyFactory.readPrimaryKey(connection, table);
+                table.primaryKey(primaryKey);
 
                 table.indexes().appendAll(readIndexes(connection, table));
 

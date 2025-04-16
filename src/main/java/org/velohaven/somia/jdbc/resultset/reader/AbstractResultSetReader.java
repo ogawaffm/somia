@@ -110,6 +110,9 @@ public abstract class AbstractResultSetReader<T> {
         if (rowNumber == 0) {
             throw new SQLException("Row number must be greater than 0 or negative to address rows from the end");
         }
+        if (rowNumber < 0 && resultSet.getType() == ResultSet.TYPE_FORWARD_ONLY) {
+            throw new SQLException("Cannot address rows from the end of the ResultSet in TYPE_FORWARD_ONLY mode");
+        }
     }
 
     /**
@@ -169,6 +172,45 @@ public abstract class AbstractResultSetReader<T> {
         }
     }
 
+    private boolean moveForward(int numberOfRows) throws SQLException {
+        if (numberOfRows < 0) {
+            throw new SQLException("numberOfRows must be greater than or equal to 0");
+        }
+        for (int i = 0; i < numberOfRows; i++) {
+            if (!nextWithExceptionHandling()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean moveTo(int rowNumber) throws SQLException {
+        // absolute() is not supported because the ResultSet is TYPE_FORWARD_ONLY?
+        if (resultSet.getType() == ResultSet.TYPE_FORWARD_ONLY) {
+            // TYPE_FORWARD_ONLY mode does neither support absolute() nor relative() or previous()
+            // the only way to move to a specific row is to move forward
+            if (rowNumber < resultSet.getRow()) {
+                throw new SQLException("Cannot move backward to row #" + rowNumber + " in TYPE_FORWARD_ONLY mode");
+            }
+            // move to the current row by moving forward (and unfortunately fetching all rows in between)
+            return moveForward(rowNumber - resultSet.getRow());
+        } else {
+            // absolute() should be supported
+            // if the row number is negative, it is used to address rows from the end of the ResultSet
+            if (rowNumber < 0) {
+                // move to the last row, get the row count and check if the row number is out of bounds
+                resultSet.last();
+                int rowCount = resultSet.getRow();
+                if (Math.abs(rowNumber) > rowCount) {
+                    throw new SQLException("Row number " + rowNumber + " is out of bounds");
+                }
+                return resultSet.absolute(rowCount + rowNumber + 1);
+            } else {
+                return resultSet.absolute(rowNumber);
+            }
+        }
+    }
+
     /**
      * Reads a number of rows from the ResultSet starting at the given row number. The ResultSet is positioned at the
      * given row number. The row number is 1-based, meaning that the first row is 1, the second row is 2, and so on.
@@ -189,11 +231,12 @@ public abstract class AbstractResultSetReader<T> {
 
         List<T> rows = new ArrayList<>();
 
-        if (numberOfRows > 0 && !isResultSetEmpty()) {
+        if (numberOfRows > 0) {
 
             int rowsRead = 0;
+            int rowNo = resultSet.getRow();
             try {
-                if (absoluteWithExceptionHandling(firstRowNumber)) {
+                if (moveTo(firstRowNumber)) {
                     do {
                         T row = constructor.get();
                         transferWithExceptionHandling(row);
