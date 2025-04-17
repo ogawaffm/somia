@@ -110,16 +110,12 @@ public class ModelFactory {
 
     public Map<String, Table> loadTables(String catalogName, String schemaName, String tableName) throws SQLException {
         return new ModelReader().readTables(
-            getConnection(),
-            catalogName,
-            schemaName,
-            tableName,
-            Integer.MAX_VALUE
+                getConnection(),
+                catalogName,
+                schemaName,
+                tableName,
+                Integer.MAX_VALUE
         );
-    }
-
-    public List<BestRowIdentifierColumn> test(Table table) throws SQLException {
-        return new ModelReader().readBestRowIdentifier(getConnection(), table);
     }
 
     public Catalog newCatalog() {
@@ -132,10 +128,10 @@ public class ModelFactory {
 
     public Schemas loadSchemas(String catalogName, String schemaName) throws SQLException {
         return new ModelReader().readSchemas(
-            getConnection(),
-            catalogName,
-            schemaName,
-            Integer.MAX_VALUE
+                getConnection(),
+                catalogName,
+                schemaName,
+                Integer.MAX_VALUE
         );
     }
 
