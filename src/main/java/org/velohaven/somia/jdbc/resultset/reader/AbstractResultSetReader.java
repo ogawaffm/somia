@@ -234,7 +234,6 @@ public abstract class AbstractResultSetReader<T> {
         if (numberOfRows > 0) {
 
             int rowsRead = 0;
-            int rowNo = resultSet.getRow();
             try {
                 if (moveTo(firstRowNumber)) {
                     do {
