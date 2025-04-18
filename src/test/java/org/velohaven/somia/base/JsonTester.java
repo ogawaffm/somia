@@ -38,8 +38,8 @@ public class JsonTester {
     @SneakyThrows
     public void assertEquals(String jsonString) {
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode expectedJson = objectMapper.readTree(jsonString);
-        JsonNode actualJson = objectMapper.valueToTree(this.json);
+        JsonNode actualJson = objectMapper.readTree(jsonString);
+        JsonNode expectedJson = objectMapper.valueToTree(this.json);
         compareJsonNodes(expectedJson, actualJson, "");
     }
 
